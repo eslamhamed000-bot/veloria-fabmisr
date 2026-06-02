@@ -6,38 +6,29 @@
   <title>Veloria Secure Payment</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --soft-pink:#f7c8d8;
-      --pink:#ee9fbd;
-      --baby-blue:#dcefff;
-      --blue:#9fd2ff;
-      --ink:#1f1f24;
-      --muted:#6f7179;
-      --card:#ffffffcc;
-      --line:#ffffff;
-      --shadow:0 28px 80px rgba(142,190,230,.24);
+      --pink:#f6c8d8;
+      --pink2:#ee9fbd;
+      --blue:#dcefff;
+      --blue2:#9fd2ff;
+      --ink:#202026;
+      --muted:#777982;
+      --white:rgba(255,255,255,.82);
     }
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+    *{margin:0;padding:0;box-sizing:border-box}
 
     body{
       min-height:100vh;
-      font-family:"Manrope",sans-serif;
+      font-family:"Inter",sans-serif;
       color:var(--ink);
       background:
-        radial-gradient(circle at 12% 12%, rgba(247,200,216,.70), transparent 30%),
-        radial-gradient(circle at 88% 18%, rgba(220,239,255,.95), transparent 34%),
-        radial-gradient(circle at 75% 85%, rgba(247,200,216,.45), transparent 28%),
-        linear-gradient(135deg,#fffafd,#f8fcff);
-      overflow-x:hidden;
+        radial-gradient(circle at 14% 12%, rgba(246,200,216,.72), transparent 30%),
+        radial-gradient(circle at 86% 16%, rgba(220,239,255,.95), transparent 34%),
+        linear-gradient(135deg,#fffafd,#f7fbff);
     }
 
     .page{
@@ -45,217 +36,79 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:34px 18px;
-      position:relative;
+      padding:28px 16px;
     }
 
-    .page::before{
-      content:"";
-      position:absolute;
-      width:520px;
-      height:520px;
-      border-radius:50%;
-      background:linear-gradient(135deg,rgba(247,200,216,.33),rgba(220,239,255,.45));
-      filter:blur(10px);
-      top:-180px;
-      right:-160px;
-      animation:glow 7s ease-in-out infinite alternate;
-    }
-
-    .page::after{
-      content:"";
-      position:absolute;
-      width:360px;
-      height:360px;
-      border-radius:50%;
-      background:linear-gradient(135deg,rgba(220,239,255,.55),rgba(247,200,216,.35));
-      filter:blur(12px);
-      bottom:-130px;
-      left:-110px;
-      animation:glow 8s ease-in-out infinite alternate-reverse;
-    }
-
-    @keyframes glow{
-      from{transform:translateY(0) scale(1);}
-      to{transform:translateY(18px) scale(1.06);}
-    }
-
-    .wrapper{
+    .card{
       width:100%;
-      max-width:980px;
-      position:relative;
-      z-index:2;
-    }
-
-    .brand-header{
-      display:flex;
-      justify-content:center;
-      margin-bottom:22px;
-      animation:fadeUp .7s ease both;
-    }
-
-    .brand-pill{
-      display:flex;
-      align-items:center;
-      gap:18px;
-      padding:15px 24px 15px 16px;
-      background:rgba(255,255,255,.66);
+      max-width:860px;
+      background:rgba(255,255,255,.68);
+      backdrop-filter:blur(22px);
       border:1px solid rgba(255,255,255,.95);
-      border-radius:999px;
-      box-shadow:0 18px 50px rgba(0,0,0,.06);
-      backdrop-filter:blur(18px);
+      border-radius:36px;
+      box-shadow:0 30px 90px rgba(140,190,230,.22);
+      padding:34px;
+      display:grid;
+      grid-template-columns:1fr 360px;
+      gap:28px;
+      align-items:center;
     }
 
-    .brand-pill img{
-      width:72px;
-      height:72px;
+    .brand{
+      text-align:center;
+      padding:10px;
+    }
+
+    .brand img{
+      width:150px;
+      height:auto;
       object-fit:contain;
       mix-blend-mode:multiply;
-    }
-
-    .brand-title{
-      font-family:"DM Serif Display",serif;
-      font-size:34px;
-      letter-spacing:.2px;
-      line-height:.95;
-    }
-
-    .brand-subtitle{
-      margin-top:6px;
-      font-size:12px;
-      color:var(--muted);
-      letter-spacing:.9px;
-      text-transform:uppercase;
-    }
-
-    .main-card{
-      background:rgba(255,255,255,.62);
-      border:1px solid rgba(255,255,255,.95);
-      box-shadow:var(--shadow);
-      border-radius:38px;
-      padding:36px;
-      backdrop-filter:blur(24px);
-      display:grid;
-      grid-template-columns:1fr 420px;
-      gap:32px;
-      align-items:stretch;
-      animation:fadeUp .85s ease both;
-    }
-
-    @keyframes fadeUp{
-      from{opacity:0;transform:translateY(18px);}
-      to{opacity:1;transform:translateY(0);}
-    }
-
-    .copy{
-      padding:22px 8px 22px 14px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-    }
-
-    .badge{
-      width:max-content;
-      padding:9px 14px;
-      border-radius:999px;
-      background:linear-gradient(135deg,rgba(247,200,216,.5),rgba(220,239,255,.65));
-      font-size:12px;
-      font-weight:800;
-      color:#3a3a3d;
       margin-bottom:22px;
     }
 
     h1{
       font-family:"DM Serif Display",serif;
-      font-size:58px;
-      line-height:1.02;
+      font-size:52px;
       font-weight:400;
-      margin-bottom:18px;
-      letter-spacing:-.8px;
+      line-height:1.05;
+      margin-bottom:12px;
     }
 
     h1 span{
-      background:linear-gradient(135deg,var(--pink),var(--blue));
+      background:linear-gradient(135deg,var(--pink2),var(--blue2));
       -webkit-background-clip:text;
       color:transparent;
     }
 
-    .lead{
-      max-width:470px;
+    .sub{
       color:var(--muted);
-      font-size:16px;
-      line-height:1.8;
-      margin-bottom:28px;
+      font-size:15px;
+      line-height:1.7;
+      max-width:420px;
+      margin:auto;
     }
 
-    .mini-trust{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .mini{
-      background:rgba(255,255,255,.72);
-      border:1px solid rgba(255,255,255,.95);
-      border-radius:18px;
-      padding:13px 15px;
-      min-width:140px;
-      box-shadow:0 12px 30px rgba(0,0,0,.04);
-    }
-
-    .mini b{
-      display:block;
-      font-size:13px;
-      margin-bottom:4px;
-    }
-
-    .mini small{
-      color:var(--muted);
-      font-size:11px;
-      line-height:1.45;
-    }
-
-    .checkout{
-      background:rgba(255,255,255,.88);
-      border:1px solid rgba(255,255,255,1);
+    .pay-box{
+      background:rgba(255,255,255,.9);
+      border:1px solid #fff;
       border-radius:30px;
       padding:28px;
-      box-shadow:0 22px 60px rgba(0,0,0,.08);
+      box-shadow:0 22px 60px rgba(0,0,0,.07);
+    }
+
+    .top{
       display:flex;
-      flex-direction:column;
       justify-content:space-between;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .checkout::before{
-      content:"";
-      position:absolute;
-      width:180px;
-      height:180px;
-      border-radius:50%;
-      background:linear-gradient(135deg,rgba(247,200,216,.35),rgba(220,239,255,.55));
-      right:-70px;
-      top:-70px;
-    }
-
-    .checkout-inner{
-      position:relative;
-      z-index:1;
-    }
-
-    .secure-row{
-      display:flex;
       align-items:center;
-      justify-content:space-between;
       margin-bottom:22px;
     }
 
-    .secure-dot{
+    .secure{
+      background:#eefaf3;
+      color:#168449;
       font-size:12px;
       font-weight:800;
-      color:#168a4a;
-      background:#effbf4;
       padding:8px 12px;
       border-radius:999px;
     }
@@ -264,282 +117,177 @@
       width:38px;
       height:38px;
       border-radius:50%;
-      background:linear-gradient(135deg,var(--soft-pink),var(--baby-blue));
+      background:linear-gradient(135deg,var(--pink),var(--blue));
       display:flex;
       align-items:center;
       justify-content:center;
-      box-shadow:0 10px 24px rgba(238,159,189,.18);
     }
 
-    .checkout h2{
+    h2{
       font-family:"DM Serif Display",serif;
-      font-size:32px;
+      font-size:30px;
       font-weight:400;
       margin-bottom:18px;
     }
 
-    .divider{
-      height:1px;
-      background:linear-gradient(90deg,var(--soft-pink),var(--baby-blue));
-      margin-bottom:20px;
-    }
-
-    .summary{
+    .row{
       display:flex;
       justify-content:space-between;
+      font-size:14px;
+      margin:14px 0;
       gap:18px;
-      margin:13px 0;
-      font-size:13px;
     }
 
-    .summary span:first-child{
-      color:var(--muted);
-    }
-
-    .summary span:last-child{
-      text-align:right;
-      font-weight:700;
-    }
+    .row span:first-child{color:var(--muted)}
+    .row span:last-child{font-weight:700;text-align:right}
 
     .amount{
-      margin:24px 0 18px;
+      margin:24px 0;
       padding:20px;
-      border-radius:24px;
-      background:linear-gradient(135deg,rgba(247,200,216,.42),rgba(220,239,255,.60));
+      border-radius:22px;
+      background:linear-gradient(135deg,rgba(246,200,216,.42),rgba(220,239,255,.62));
       text-align:center;
     }
 
     .amount small{
       display:block;
       color:var(--muted);
-      font-size:12px;
       margin-bottom:6px;
+      font-size:12px;
     }
 
     .amount strong{
       color:#e48baa;
       font-size:34px;
-      letter-spacing:.3px;
+      font-weight:800;
     }
 
-    .pay-btn{
+    .btn{
       width:100%;
       border:none;
-      cursor:pointer;
-      padding:18px;
+      padding:17px;
       border-radius:18px;
-      background:linear-gradient(135deg,#232326,#3a3a3f);
-      color:#fff;
+      background:#202026;
+      color:white;
       font-size:15px;
-      font-weight:900;
-      box-shadow:0 18px 42px rgba(0,0,0,.20);
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 18px 38px rgba(0,0,0,.18);
       transition:.25s ease;
     }
 
-    .pay-btn:hover{
+    .btn:hover{
       transform:translateY(-2px);
-      box-shadow:0 24px 52px rgba(0,0,0,.26);
+      background:#303038;
     }
 
-    .redirect{
-      margin:14px 0 20px;
+    .note{
       text-align:center;
+      margin:14px 0 18px;
       color:var(--muted);
       font-size:12px;
-      line-height:1.6;
     }
 
     .logos{
       display:flex;
       justify-content:center;
       align-items:center;
-      gap:18px;
-      padding:15px;
-      border-radius:20px;
-      background:rgba(255,255,255,.65);
-      border:1px solid rgba(255,255,255,.9);
+      gap:24px;
+      background:#fff;
+      border-radius:18px;
+      padding:16px;
+      border:1px solid #f1f1f1;
     }
 
-    .logos img{
-      height:25px;
+    .visa{
+      height:34px;
+      width:auto;
       object-fit:contain;
     }
 
-    .footer-trust{
-      margin-top:18px;
+    .mastercard{
+      height:38px;
+      width:auto;
+      object-fit:contain;
+    }
+
+    .powered{
       text-align:center;
+      margin-top:14px;
       font-size:12px;
       color:var(--muted);
     }
 
-    .footer-trust b{
-      color:var(--ink);
-    }
+    .powered b{color:var(--ink)}
 
-    @media(max-width:900px){
-      .main-card{
+    @media(max-width:820px){
+      .card{
         grid-template-columns:1fr;
-        padding:24px;
+        max-width:500px;
       }
 
-      .copy{
-        padding:8px;
-        text-align:center;
-        align-items:center;
-      }
-
-      h1{
-        font-size:44px;
-      }
-
-      .lead{
-        font-size:14px;
-      }
-
-      .mini-trust{
-        justify-content:center;
-      }
-
-      .brand-title{
-        font-size:28px;
-      }
-
-      .brand-pill img{
-        width:62px;
-        height:62px;
-      }
-    }
-
-    @media(max-width:520px){
-      .page{
-        padding:20px 12px;
-      }
-
-      .main-card{
-        border-radius:28px;
-      }
-
-      .brand-pill{
-        width:100%;
-        justify-content:center;
-        border-radius:28px;
-      }
-
-      h1{
-        font-size:38px;
-      }
-
-      .checkout{
-        padding:22px;
-      }
-
-      .amount strong{
-        font-size:29px;
-      }
+      h1{font-size:42px}
+      .brand img{width:130px}
     }
   </style>
 </head>
 
 <body>
   <main class="page">
-    <div class="wrapper">
+    <section class="card">
 
-      <header class="brand-header">
-        <div class="brand-pill">
-          <img src="Untitled_design.svg" alt="Veloria logo">
-          <div>
-            <div class="brand-title">VeloRia</div>
-            <div class="brand-subtitle">Make UP & Skin Care</div>
-          </div>
-        </div>
-      </header>
+      <div class="brand">
+        <img src="Untitled_design.svg" alt="Veloria Logo">
 
-      <section class="main-card">
+        <h1>
+          Secure <span>Payment</span>
+        </h1>
 
-        <div class="copy">
-          <div class="badge">Secure checkout session</div>
+        <p class="sub">
+          Complete your order safely through FABMISR secure card payment page.
+        </p>
+      </div>
 
-          <h1>
-            Complete your payment <br>
-            with <span>confidence</span>
-          </h1>
-
-          <p class="lead">
-            You are paying through a secure bank payment page powered by FABMISR. Veloria does not store your card details.
-          </p>
-
-          <div class="mini-trust">
-            <div class="mini">
-              <b>SSL encrypted</b>
-              <small>Your session is protected</small>
-            </div>
-
-            <div class="mini">
-              <b>Bank-level gateway</b>
-              <small>Processed by FABMISR</small>
-            </div>
-
-            <div class="mini">
-              <b>Safe return</b>
-              <small>Back to Veloria after payment</small>
-            </div>
-          </div>
+      <div class="pay-box">
+        <div class="top">
+          <div class="secure">● Secure Session</div>
+          <div class="lock">🔒</div>
         </div>
 
-        <aside class="checkout">
-          <div class="checkout-inner">
+        <h2>Order Summary</h2>
 
-            <div class="secure-row">
-              <div class="secure-dot">● Secure</div>
-              <div class="lock">🔒</div>
-            </div>
+        <div class="row">
+          <span>Order</span>
+          <span>#VL-2054</span>
+        </div>
 
-            <h2>Order Summary</h2>
-            <div class="divider"></div>
+        <div class="row">
+          <span>Status</span>
+          <span>Ready</span>
+        </div>
 
-            <div class="summary">
-              <span>Order ID</span>
-              <span>#VL-2054</span>
-            </div>
+        <div class="amount">
+          <small>Total Amount</small>
+          <strong>EGP 1,250</strong>
+        </div>
 
-            <div class="summary">
-              <span>Store</span>
-              <span>Veloria Makeup & Skincare</span>
-            </div>
+        <button class="btn">Pay Now</button>
 
-            <div class="summary">
-              <span>Status</span>
-              <span>Ready for payment</span>
-            </div>
+        <p class="note">
+          You’ll be redirected to FABMISR official gateway.
+        </p>
 
-            <div class="amount">
-              <small>Amount to be paid</small>
-              <strong>EGP 1,250</strong>
-            </div>
+        <div class="logos">
+          <img class="visa" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
+          <img class="mastercard" src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+        </div>
 
-            <button class="pay-btn">
-              Pay securely now
-            </button>
+        <div class="powered">
+          Secured by <b>FABMISR</b>
+        </div>
+      </div>
 
-            <p class="redirect">
-              You will be redirected to the official FABMISR payment page.
-            </p>
-
-            <div class="logos">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
-            </div>
-
-            <div class="footer-trust">
-              Secured by <b>FABMISR</b>
-            </div>
-
-          </div>
-        </aside>
-
-      </section>
-
-    </div>
+    </section>
   </main>
 </body>
 </html>
