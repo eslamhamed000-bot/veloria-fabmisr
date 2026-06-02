@@ -2,49 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Veloria Secure Payment</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-
     :root{
-      --pink:#f7c8d9;
-      --pink-strong:#ee9fbd;
-      --blue:#d9ecff;
-      --blue-strong:#8fc7ff;
-      --ink:#222;
-      --muted:#6f6f6f;
-      --white:#fff;
+      --soft-pink:#f7c8d8;
+      --pink:#ee9fbd;
+      --baby-blue:#dcefff;
+      --blue:#9fd2ff;
+      --ink:#1f1f24;
+      --muted:#6f7179;
+      --card:#ffffffcc;
+      --line:#ffffff;
+      --shadow:0 28px 80px rgba(142,190,230,.24);
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
 
     body{
       min-height:100vh;
-      font-family:'Inter',sans-serif;
+      font-family:"Manrope",sans-serif;
       color:var(--ink);
       background:
-        radial-gradient(circle at 10% 15%, rgba(247,200,217,.65), transparent 30%),
-        radial-gradient(circle at 90% 20%, rgba(217,236,255,.85), transparent 32%),
-        linear-gradient(135deg,#fff9fb,#f7fbff);
+        radial-gradient(circle at 12% 12%, rgba(247,200,216,.70), transparent 30%),
+        radial-gradient(circle at 88% 18%, rgba(220,239,255,.95), transparent 34%),
+        radial-gradient(circle at 75% 85%, rgba(247,200,216,.45), transparent 28%),
+        linear-gradient(135deg,#fffafd,#f8fcff);
       overflow-x:hidden;
-    }
-
-    body:before{
-      content:"";
-      position:fixed;
-      inset:-40%;
-      background:
-        linear-gradient(120deg, transparent 40%, rgba(255,255,255,.75), transparent 60%);
-      animation:softMove 8s ease-in-out infinite alternate;
-      pointer-events:none;
-    }
-
-    @keyframes softMove{
-      from{transform:translateX(-4%) rotate(0deg)}
-      to{transform:translateX(4%) rotate(3deg)}
     }
 
     .page{
@@ -52,347 +45,501 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:48px 22px;
+      padding:34px 18px;
       position:relative;
     }
 
-    .shell{
+    .page::before{
+      content:"";
+      position:absolute;
+      width:520px;
+      height:520px;
+      border-radius:50%;
+      background:linear-gradient(135deg,rgba(247,200,216,.33),rgba(220,239,255,.45));
+      filter:blur(10px);
+      top:-180px;
+      right:-160px;
+      animation:glow 7s ease-in-out infinite alternate;
+    }
+
+    .page::after{
+      content:"";
+      position:absolute;
+      width:360px;
+      height:360px;
+      border-radius:50%;
+      background:linear-gradient(135deg,rgba(220,239,255,.55),rgba(247,200,216,.35));
+      filter:blur(12px);
+      bottom:-130px;
+      left:-110px;
+      animation:glow 8s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes glow{
+      from{transform:translateY(0) scale(1);}
+      to{transform:translateY(18px) scale(1.06);}
+    }
+
+    .wrapper{
       width:100%;
-      max-width:1080px;
-      background:rgba(255,255,255,.72);
-      backdrop-filter:blur(22px);
-      border:1px solid rgba(255,255,255,.8);
-      border-radius:38px;
-      box-shadow:0 30px 90px rgba(143,199,255,.22);
-      overflow:hidden;
-      display:grid;
-      grid-template-columns:1.05fr .95fr;
-    }
-
-    .brand-side{
-      padding:54px;
+      max-width:980px;
       position:relative;
+      z-index:2;
     }
 
-    .brand-mark{
+    .brand-header{
+      display:flex;
+      justify-content:center;
+      margin-bottom:22px;
+      animation:fadeUp .7s ease both;
+    }
+
+    .brand-pill{
       display:flex;
       align-items:center;
       gap:18px;
-      margin-bottom:56px;
+      padding:15px 24px 15px 16px;
+      background:rgba(255,255,255,.66);
+      border:1px solid rgba(255,255,255,.95);
+      border-radius:999px;
+      box-shadow:0 18px 50px rgba(0,0,0,.06);
+      backdrop-filter:blur(18px);
     }
 
-    .logo-wrap{
-      width:92px;
-      height:92px;
-      border-radius:28px;
-      background:linear-gradient(135deg,rgba(247,200,217,.6),rgba(217,236,255,.7));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:0 18px 45px rgba(238,159,189,.18);
-      overflow:hidden;
-    }
-
-    .logo-wrap img{
-      width:118px;
-      height:118px;
+    .brand-pill img{
+      width:72px;
+      height:72px;
       object-fit:contain;
       mix-blend-mode:multiply;
-      opacity:.92;
     }
 
-    .brand-name{
-      font-family:'Playfair Display',serif;
-      font-size:38px;
-      line-height:1;
-      letter-spacing:.3px;
+    .brand-title{
+      font-family:"DM Serif Display",serif;
+      font-size:34px;
+      letter-spacing:.2px;
+      line-height:.95;
     }
 
-    .brand-sub{
-      font-size:13px;
-      color:var(--muted);
+    .brand-subtitle{
       margin-top:6px;
-      letter-spacing:.5px;
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.9px;
+      text-transform:uppercase;
     }
 
-    .headline{
-      font-family:'Playfair Display',serif;
-      font-size:64px;
-      line-height:1.03;
+    .main-card{
+      background:rgba(255,255,255,.62);
+      border:1px solid rgba(255,255,255,.95);
+      box-shadow:var(--shadow);
+      border-radius:38px;
+      padding:36px;
+      backdrop-filter:blur(24px);
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:32px;
+      align-items:stretch;
+      animation:fadeUp .85s ease both;
+    }
+
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(18px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+
+    .copy{
+      padding:22px 8px 22px 14px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .badge{
+      width:max-content;
+      padding:9px 14px;
+      border-radius:999px;
+      background:linear-gradient(135deg,rgba(247,200,216,.5),rgba(220,239,255,.65));
+      font-size:12px;
+      font-weight:800;
+      color:#3a3a3d;
       margin-bottom:22px;
+    }
+
+    h1{
+      font-family:"DM Serif Display",serif;
+      font-size:58px;
+      line-height:1.02;
+      font-weight:400;
+      margin-bottom:18px;
       letter-spacing:-.8px;
     }
 
-    .headline span{
-      background:linear-gradient(135deg,var(--pink-strong),var(--blue-strong));
+    h1 span{
+      background:linear-gradient(135deg,var(--pink),var(--blue));
       -webkit-background-clip:text;
       color:transparent;
     }
 
-    .desc{
-      max-width:460px;
+    .lead{
+      max-width:470px;
       color:var(--muted);
-      font-size:17px;
+      font-size:16px;
       line-height:1.8;
-      margin-bottom:34px;
+      margin-bottom:28px;
     }
 
-    .trust-row{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
+    .mini-trust{
+      display:flex;
       gap:12px;
-      max-width:500px;
+      flex-wrap:wrap;
     }
 
-    .trust-item{
+    .mini{
       background:rgba(255,255,255,.72);
       border:1px solid rgba(255,255,255,.95);
-      border-radius:20px;
-      padding:16px;
+      border-radius:18px;
+      padding:13px 15px;
+      min-width:140px;
       box-shadow:0 12px 30px rgba(0,0,0,.04);
     }
 
-    .trust-item b{
+    .mini b{
       display:block;
-      font-size:14px;
-      margin-bottom:5px;
+      font-size:13px;
+      margin-bottom:4px;
     }
 
-    .trust-item small{
+    .mini small{
       color:var(--muted);
-      font-size:12px;
-      line-height:1.5;
+      font-size:11px;
+      line-height:1.45;
     }
 
-    .pay-side{
-      padding:34px;
+    .checkout{
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(255,255,255,1);
+      border-radius:30px;
+      padding:28px;
+      box-shadow:0 22px 60px rgba(0,0,0,.08);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .checkout::before{
+      content:"";
+      position:absolute;
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      background:linear-gradient(135deg,rgba(247,200,216,.35),rgba(220,239,255,.55));
+      right:-70px;
+      top:-70px;
+    }
+
+    .checkout-inner{
+      position:relative;
+      z-index:1;
+    }
+
+    .secure-row{
       display:flex;
       align-items:center;
-      justify-content:center;
-      background:
-        linear-gradient(180deg,rgba(217,236,255,.35),rgba(247,200,217,.28));
-    }
-
-    .payment-card{
-      width:100%;
-      max-width:420px;
-      background:rgba(255,255,255,.86);
-      border:1px solid rgba(255,255,255,.95);
-      border-radius:34px;
-      padding:34px;
-      box-shadow:0 24px 60px rgba(0,0,0,.08);
-      animation:floatCard 4.5s ease-in-out infinite;
-    }
-
-    @keyframes floatCard{
-      0%,100%{transform:translateY(0)}
-      50%{transform:translateY(-7px)}
-    }
-
-    .secure-pill{
-      width:max-content;
-      margin-bottom:24px;
-      padding:9px 14px;
-      border-radius:999px;
-      background:#f1fbf6;
-      color:#18864b;
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .card-title{
-      font-family:'Playfair Display',serif;
-      font-size:32px;
+      justify-content:space-between;
       margin-bottom:22px;
     }
 
-    .line{
+    .secure-dot{
+      font-size:12px;
+      font-weight:800;
+      color:#168a4a;
+      background:#effbf4;
+      padding:8px 12px;
+      border-radius:999px;
+    }
+
+    .lock{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--soft-pink),var(--baby-blue));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 10px 24px rgba(238,159,189,.18);
+    }
+
+    .checkout h2{
+      font-family:"DM Serif Display",serif;
+      font-size:32px;
+      font-weight:400;
+      margin-bottom:18px;
+    }
+
+    .divider{
       height:1px;
-      background:linear-gradient(90deg,var(--pink),var(--blue));
-      margin-bottom:24px;
+      background:linear-gradient(90deg,var(--soft-pink),var(--baby-blue));
+      margin-bottom:20px;
     }
 
     .summary{
       display:flex;
       justify-content:space-between;
       gap:18px;
-      margin:16px 0;
-      font-size:14px;
+      margin:13px 0;
+      font-size:13px;
     }
 
-    .summary span:first-child{color:var(--muted)}
-    .summary span:last-child{
-      font-weight:600;
-      text-align:right;
-    }
-
-    .amount-box{
-      margin:28px 0 24px;
-      padding:22px;
-      border-radius:24px;
-      background:linear-gradient(135deg,rgba(247,200,217,.35),rgba(217,236,255,.5));
-      text-align:center;
-    }
-
-    .amount-label{
+    .summary span:first-child{
       color:var(--muted);
-      font-size:12px;
-      margin-bottom:7px;
+    }
+
+    .summary span:last-child{
+      text-align:right;
+      font-weight:700;
     }
 
     .amount{
+      margin:24px 0 18px;
+      padding:20px;
+      border-radius:24px;
+      background:linear-gradient(135deg,rgba(247,200,216,.42),rgba(220,239,255,.60));
+      text-align:center;
+    }
+
+    .amount small{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:6px;
+    }
+
+    .amount strong{
+      color:#e48baa;
       font-size:34px;
-      font-weight:800;
-      color:#e58caf;
-      letter-spacing:.2px;
+      letter-spacing:.3px;
     }
 
     .pay-btn{
       width:100%;
       border:none;
       cursor:pointer;
-      padding:18px 20px;
-      border-radius:20px;
-      color:white;
-      font-weight:800;
-      font-size:16px;
-      background:linear-gradient(135deg,#222,#3b3b3b);
-      box-shadow:0 18px 38px rgba(0,0,0,.20);
+      padding:18px;
+      border-radius:18px;
+      background:linear-gradient(135deg,#232326,#3a3a3f);
+      color:#fff;
+      font-size:15px;
+      font-weight:900;
+      box-shadow:0 18px 42px rgba(0,0,0,.20);
       transition:.25s ease;
     }
 
     .pay-btn:hover{
       transform:translateY(-2px);
-      box-shadow:0 24px 48px rgba(0,0,0,.25);
+      box-shadow:0 24px 52px rgba(0,0,0,.26);
     }
 
     .redirect{
+      margin:14px 0 20px;
       text-align:center;
-      margin:16px 0 22px;
-      font-size:13px;
       color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
     }
 
-    .payment-logos{
+    .logos{
       display:flex;
-      align-items:center;
       justify-content:center;
+      align-items:center;
       gap:18px;
-      padding:18px 0 6px;
-      border-top:1px solid #eee;
+      padding:15px;
+      border-radius:20px;
+      background:rgba(255,255,255,.65);
+      border:1px solid rgba(255,255,255,.9);
     }
 
-    .payment-logos img{
-      height:28px;
+    .logos img{
+      height:25px;
       object-fit:contain;
     }
 
-    .fab{
-      margin-top:14px;
+    .footer-trust{
+      margin-top:18px;
       text-align:center;
+      font-size:12px;
       color:var(--muted);
-      font-size:13px;
     }
 
-    .fab b{color:#222}
+    .footer-trust b{
+      color:var(--ink);
+    }
 
     @media(max-width:900px){
-      .shell{grid-template-columns:1fr}
-      .brand-side{padding:34px}
-      .headline{font-size:46px}
-      .trust-row{grid-template-columns:1fr}
-      .pay-side{padding:24px}
+      .main-card{
+        grid-template-columns:1fr;
+        padding:24px;
+      }
+
+      .copy{
+        padding:8px;
+        text-align:center;
+        align-items:center;
+      }
+
+      h1{
+        font-size:44px;
+      }
+
+      .lead{
+        font-size:14px;
+      }
+
+      .mini-trust{
+        justify-content:center;
+      }
+
+      .brand-title{
+        font-size:28px;
+      }
+
+      .brand-pill img{
+        width:62px;
+        height:62px;
+      }
+    }
+
+    @media(max-width:520px){
+      .page{
+        padding:20px 12px;
+      }
+
+      .main-card{
+        border-radius:28px;
+      }
+
+      .brand-pill{
+        width:100%;
+        justify-content:center;
+        border-radius:28px;
+      }
+
+      h1{
+        font-size:38px;
+      }
+
+      .checkout{
+        padding:22px;
+      }
+
+      .amount strong{
+        font-size:29px;
+      }
     }
   </style>
 </head>
 
 <body>
   <main class="page">
-    <section class="shell">
+    <div class="wrapper">
 
-      <div class="brand-side">
-        <div class="brand-mark">
-          <div class="logo-wrap">
-            <img src="Untitled_design.svg" alt="Veloria Logo">
-          </div>
+      <header class="brand-header">
+        <div class="brand-pill">
+          <img src="Untitled_design.svg" alt="Veloria logo">
           <div>
-            <div class="brand-name">Veloria</div>
-            <div class="brand-sub">Make UP & Skin Care</div>
+            <div class="brand-title">VeloRia</div>
+            <div class="brand-subtitle">Make UP & Skin Care</div>
+          </div>
+        </div>
+      </header>
+
+      <section class="main-card">
+
+        <div class="copy">
+          <div class="badge">Secure checkout session</div>
+
+          <h1>
+            Complete your payment <br>
+            with <span>confidence</span>
+          </h1>
+
+          <p class="lead">
+            You are paying through a secure bank payment page powered by FABMISR. Veloria does not store your card details.
+          </p>
+
+          <div class="mini-trust">
+            <div class="mini">
+              <b>SSL encrypted</b>
+              <small>Your session is protected</small>
+            </div>
+
+            <div class="mini">
+              <b>Bank-level gateway</b>
+              <small>Processed by FABMISR</small>
+            </div>
+
+            <div class="mini">
+              <b>Safe return</b>
+              <small>Back to Veloria after payment</small>
+            </div>
           </div>
         </div>
 
-        <h1 class="headline">
-          Secure card payment<br>
-          for <span>Veloria</span>
-        </h1>
+        <aside class="checkout">
+          <div class="checkout-inner">
 
-        <p class="desc">
-          Complete your order safely through a secure bank payment page. Your card details are never stored by Veloria.
-        </p>
+            <div class="secure-row">
+              <div class="secure-dot">● Secure</div>
+              <div class="lock">🔒</div>
+            </div>
 
-        <div class="trust-row">
-          <div class="trust-item">
-            <b>SSL Secure</b>
-            <small>Encrypted checkout session</small>
+            <h2>Order Summary</h2>
+            <div class="divider"></div>
+
+            <div class="summary">
+              <span>Order ID</span>
+              <span>#VL-2054</span>
+            </div>
+
+            <div class="summary">
+              <span>Store</span>
+              <span>Veloria Makeup & Skincare</span>
+            </div>
+
+            <div class="summary">
+              <span>Status</span>
+              <span>Ready for payment</span>
+            </div>
+
+            <div class="amount">
+              <small>Amount to be paid</small>
+              <strong>EGP 1,250</strong>
+            </div>
+
+            <button class="pay-btn">
+              Pay securely now
+            </button>
+
+            <p class="redirect">
+              You will be redirected to the official FABMISR payment page.
+            </p>
+
+            <div class="logos">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+            </div>
+
+            <div class="footer-trust">
+              Secured by <b>FABMISR</b>
+            </div>
+
           </div>
-          <div class="trust-item">
-            <b>Bank Gateway</b>
-            <small>Processed through FABMISR</small>
-          </div>
-          <div class="trust-item">
-            <b>Fast Return</b>
-            <small>Back to Veloria after payment</small>
-          </div>
-        </div>
-      </div>
+        </aside>
 
-      <div class="pay-side">
-        <div class="payment-card">
-          <div class="secure-pill">● Secure payment session</div>
+      </section>
 
-          <h2 class="card-title">Order Summary</h2>
-          <div class="line"></div>
-
-          <div class="summary">
-            <span>Order ID</span>
-            <span>#VL-2054</span>
-          </div>
-
-          <div class="summary">
-            <span>Merchant</span>
-            <span>Veloria Makeup & Skincare</span>
-          </div>
-
-          <div class="summary">
-            <span>Status</span>
-            <span>Ready for payment</span>
-          </div>
-
-          <div class="amount-box">
-            <div class="amount-label">Amount to be paid</div>
-            <div class="amount">EGP 1,250</div>
-          </div>
-
-          <button class="pay-btn">
-            Pay securely now
-          </button>
-
-          <div class="redirect">
-            You will be redirected to the official FABMISR payment page
-          </div>
-
-          <div class="payment-logos">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
-          </div>
-
-          <div class="fab">
-            Secured by <b>FABMISR</b>
-          </div>
-        </div>
-      </div>
-
-    </section>
+    </div>
   </main>
 </body>
 </html>
