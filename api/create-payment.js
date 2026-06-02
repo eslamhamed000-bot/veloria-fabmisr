@@ -10,13 +10,6 @@ export default async function handler(req, res) {
     const merchantId = process.env.FABMISR_MERCHANT_ID;
     const password = process.env.FABMISR_PASSWORD;
 
-    if (!merchantId || !password) {
-      return res.status(500).json({
-        success: false,
-        error: "Missing FABMISR credentials"
-      });
-    }
-
     const auth = Buffer
       .from(`merchant.${merchantId}:${password}`)
       .toString("base64");
@@ -30,11 +23,7 @@ export default async function handler(req, res) {
           "Authorization": `Basic ${auth}`
         },
         body: JSON.stringify({
-          apiOperation: "CREATE_CHECKOUT_SESSION",
-          interaction: {
-            operation: "PURCHASE",
-            returnUrl: "https://project-rqpjs.vercel.app/"
-          }
+          apiOperation: "CREATE_CHECKOUT_SESSION"
         })
       }
     );
@@ -46,14 +35,12 @@ export default async function handler(req, res) {
 
       return res.status(500).json({
         success: false,
-        error: "FABMISR rejected request",
         details: data
       });
     }
 
     return res.status(200).json({
       success: true,
-      merchantId,
       sessionId: data.session.id
     });
 
