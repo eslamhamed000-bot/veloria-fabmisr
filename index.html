@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Veloria Secure Payment</title>
 
-  <title>Veloria Secure Payments</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     *{
@@ -14,269 +16,352 @@
     }
 
     body{
-      font-family: Arial, sans-serif;
-      background:
-      linear-gradient(
-      135deg,
-      #ffd9ea,
-      #e7f1ff
-      );
-
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,#fff7fa,#f8fbff);
       min-height:100vh;
-
-      display:flex;
-      justify-content:center;
-      align-items:center;
-
-      padding:25px;
+      overflow-x:hidden;
+      color:#222;
     }
 
-    .payment-card{
-
+    .bg{
+      position:fixed;
       width:100%;
-      max-width:520px;
-
-      background:white;
-
-      border-radius:32px;
-
-      padding:45px;
-
-      box-shadow:
-      0 20px 60px rgba(0,0,0,0.12);
-
-      text-align:center;
-
-      position:relative;
-
-      overflow:hidden;
+      height:100%;
+      background:
+      radial-gradient(circle at top left,#ffd6e7 0%,transparent 30%),
+      radial-gradient(circle at bottom right,#d9ecff 0%,transparent 30%);
+      z-index:-1;
+      animation:floatbg 10s ease-in-out infinite alternate;
     }
 
-    .top-badge{
+    @keyframes floatbg{
+      from{transform:scale(1);}
+      to{transform:scale(1.05);}
+    }
 
-      position:absolute;
+    .container{
+      width:100%;
+      max-width:1200px;
+      margin:auto;
+      padding:50px 20px;
+    }
 
-      top:18px;
-      right:18px;
-
-      background:#eefaf1;
-
-      color:#169245;
-
-      padding:10px 16px;
-
-      border-radius:999px;
-
-      font-size:13px;
-      font-weight:bold;
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:50px;
+      flex-wrap:wrap;
+      gap:20px;
     }
 
     .logo{
-
-      width:90px;
-      height:90px;
-
-      margin:auto;
-      margin-bottom:25px;
-
-      border-radius:50%;
-
-      background:
-      linear-gradient(
-      135deg,
-      #ff7db5,
-      #8dc8ff
-      );
-
       display:flex;
       align-items:center;
-      justify-content:center;
-
-      color:white;
-
-      font-size:32px;
-      font-weight:bold;
-
-      box-shadow:
-      0 10px 30px rgba(255,125,181,0.25);
+      gap:15px;
     }
 
-    h1{
-      font-size:38px;
-      color:#222;
-      margin-bottom:12px;
+    .logo img{
+      width:90px;
     }
 
-    .subtitle{
+    .logo-text h1{
+      font-family:'Cormorant Garamond',serif;
+      font-size:48px;
+      font-weight:600;
+      line-height:1;
+    }
 
+    .logo-text p{
       color:#777;
-
-      line-height:1.7;
-
-      font-size:17px;
-
-      margin-bottom:30px;
-    }
-
-    .secure-box{
-
-      background:#fafafa;
-
-      border:1px solid #eee;
-
-      padding:18px;
-
-      border-radius:18px;
-
-      margin-bottom:28px;
-    }
-
-    .secure-title{
-
-      font-size:15px;
-      font-weight:bold;
-
-      color:#333;
-
-      margin-bottom:8px;
-    }
-
-    .secure-text{
-
-      color:#777;
+      margin-top:5px;
       font-size:14px;
-      line-height:1.6;
+    }
+
+    .secure{
+      background:white;
+      padding:14px 22px;
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.05);
+      font-size:14px;
+      color:#666;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:50px;
+      align-items:center;
+    }
+
+    .left h2{
+      font-family:'Cormorant Garamond',serif;
+      font-size:72px;
+      line-height:1.05;
+      margin-bottom:25px;
+    }
+
+    .left h2 span{
+      color:#e4a2bb;
+    }
+
+    .left p{
+      font-size:18px;
+      line-height:1.8;
+      color:#666;
+      margin-bottom:35px;
+    }
+
+    .features{
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+
+    .feature{
+      display:flex;
+      align-items:center;
+      gap:15px;
+    }
+
+    .icon{
+      width:55px;
+      height:55px;
+      border-radius:50%;
+      background:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      box-shadow:0 10px 25px rgba(0,0,0,0.05);
+      font-size:20px;
+    }
+
+    .feature h4{
+      font-size:18px;
+      margin-bottom:4px;
+    }
+
+    .feature p{
+      font-size:14px;
+      color:#777;
+      margin:0;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.75);
+      backdrop-filter:blur(18px);
+      border-radius:35px;
+      padding:40px;
+      box-shadow:0 25px 60px rgba(0,0,0,0.08);
+      animation:cardFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes cardFloat{
+      0%{transform:translateY(0px);}
+      50%{transform:translateY(-8px);}
+      100%{transform:translateY(0px);}
+    }
+
+    .card h3{
+      font-size:32px;
+      margin-bottom:30px;
+      font-family:'Cormorant Garamond',serif;
+    }
+
+    .summary{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:22px;
+      color:#666;
+    }
+
+    .amount{
+      font-size:42px;
+      color:#e09ab5;
+      margin:30px 0;
+      font-weight:600;
     }
 
     .pay-btn{
-
       width:100%;
-
+      padding:22px;
       border:none;
-
-      padding:18px;
-
       border-radius:18px;
-
-      background:
-      linear-gradient(
-      135deg,
-      #ff7db5,
-      #8dc8ff
-      );
-
+      background:linear-gradient(135deg,#1f1f1f,#444);
       color:white;
-
       font-size:18px;
-      font-weight:bold;
-
       cursor:pointer;
-
       transition:0.3s;
+      font-weight:500;
+      box-shadow:0 20px 40px rgba(0,0,0,0.2);
     }
 
     .pay-btn:hover{
-      transform:translateY(-2px);
-      opacity:0.95;
+      transform:translateY(-3px) scale(1.01);
     }
 
-    .bottom-trust{
-
-      margin-top:30px;
-
-      color:#888;
-
+    .redirect{
+      text-align:center;
+      color:#777;
+      margin-top:18px;
       font-size:14px;
     }
 
-    .cards{
-
-      margin-top:15px;
-
+    .payments{
+      margin-top:35px;
       display:flex;
       justify-content:center;
-      gap:10px;
+      gap:25px;
       flex-wrap:wrap;
     }
 
-    .card-badge{
-
-      background:#f5f5f5;
-
-      padding:10px 14px;
-
-      border-radius:12px;
-
-      font-size:13px;
-      font-weight:bold;
-
-      color:#444;
+    .payments img{
+      height:35px;
+      object-fit:contain;
+      filter:drop-shadow(0 4px 10px rgba(0,0,0,0.1));
     }
 
+    .trust{
+      margin-top:25px;
+      text-align:center;
+      font-size:14px;
+      color:#666;
+    }
+
+    @media(max-width:950px){
+      .hero{
+        grid-template-columns:1fr;
+      }
+
+      .left h2{
+        font-size:52px;
+      }
+
+      .logo-text h1{
+        font-size:40px;
+      }
+    }
   </style>
 </head>
 
 <body>
 
-  <div class="payment-card">
+<div class="bg"></div>
 
-    <div class="top-badge">
-      System Online
-    </div>
+<div class="container">
+
+  <div class="top">
 
     <div class="logo">
-      V
+      <img src="Untitled_design.svg" alt="Veloria Logo">
+
+      <div class="logo-text">
+        <h1>Veloria</h1>
+        <p>Makeup & Skin Care</p>
+      </div>
     </div>
 
-    <h1>
-      Veloria Payments
-    </h1>
+    <div class="secure">
+      🔒 Secure Payment • SSL Encrypted
+    </div>
 
-    <p class="subtitle">
-      Secure online payment gateway for Veloria Makeup & Skincare powered by FABMISR.
-    </p>
+  </div>
 
-    <div class="secure-box">
+  <div class="hero">
 
-      <div class="secure-title">
-        Secure Payment Environment
-      </div>
+    <div class="left">
 
-      <div class="secure-text">
-        Your payment information is encrypted and processed securely through FABMISR payment infrastructure.
+      <h2>
+        Secure Payment <br>
+        with <span>FABMISR</span>
+      </h2>
+
+      <p>
+        Trusted premium payment experience for Veloria customers.
+        Your payment information is fully encrypted and protected.
+      </p>
+
+      <div class="features">
+
+        <div class="feature">
+          <div class="icon">🛡️</div>
+
+          <div>
+            <h4>100% Secure</h4>
+            <p>Bank-level protection & encryption</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="icon">⚡</div>
+
+          <div>
+            <h4>Instant Processing</h4>
+            <p>Fast and smooth checkout experience</p>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="icon">💳</div>
+
+          <div>
+            <h4>Trusted Payments</h4>
+            <p>Visa / Mastercard / Meeza supported</p>
+          </div>
+        </div>
+
       </div>
 
     </div>
 
-    <button class="pay-btn">
-      Continue To Secure Payment
-    </button>
+    <div class="card">
 
-    <div class="bottom-trust">
-      Trusted payment methods
-    </div>
+      <h3>Order Summary</h3>
 
-    <div class="cards">
-
-      <div class="card-badge">
-        Mastercard
+      <div class="summary">
+        <span>Order ID</span>
+        <span>#VL-2054</span>
       </div>
 
-      <div class="card-badge">
-        Visa
+      <div class="summary">
+        <span>Product</span>
+        <span>Veloria Beauty Products</span>
       </div>
 
-      <div class="card-badge">
-        FABMISR
+      <div class="summary">
+        <span>Status</span>
+        <span>Ready For Payment</span>
       </div>
 
-      <div class="card-badge">
-        Secure Checkout
+      <div class="amount">
+        EGP 1,250
+      </div>
+
+      <button class="pay-btn">
+        Proceed To Secure Payment
+      </button>
+
+      <div class="redirect">
+        You will be redirected securely to FABMISR gateway
+      </div>
+
+      <div class="payments">
+
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png">
+
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg">
+
+      </div>
+
+      <div class="trust">
+        Secured by FABMISR • SSL Protected
       </div>
 
     </div>
 
   </div>
+
+</div>
 
 </body>
 </html>
