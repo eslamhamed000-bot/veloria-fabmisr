@@ -1,45 +1,50 @@
 export default async function handler(req, res) {
-
   if (req.method !== "POST") {
     return res.status(405).json({
+      success: false,
       error: "Method not allowed"
     });
   }
 
   try {
+    const { orderId, amount, currency } = req.body || {};
 
-    const {
-      orderId,
-      amount,
-      currency
-    } = req.body;
+    if (!orderId || !amount || !currency) {
+      return res.status(400).json({
+        success: false,
+        error: "Missing orderId, amount, or currency"
+      });
+    }
 
     const merchantId = process.env.FABMISR_MERCHANT_ID;
     const password = process.env.FABMISR_PASSWORD;
+
+    if (!merchantId || !password) {
+      return res.status(500).json({
+        success: false,
+        error: "Missing FABMISR credentials"
+      });
+    }
 
     const auth = Buffer
       .from(`merchant.${merchantId}:${password}`)
       .toString("base64");
 
-    const response = await fetch(
+    const gatewayResponse = await fetch(
       `https://ap-gateway.mastercard.com/api/rest/version/100/merchant/${merchantId}/session`,
       {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Basic ${auth}`
         },
-
         body: JSON.stringify({
-
           apiOperation: "CREATE_CHECKOUT_SESSION",
 
           order: {
-            id: orderId,
-            amount: amount,
-            currency: currency,
-            description: "Veloria Secure Payment"
+            id: String(orderId),
+            amount: Number(amount).toFixed(2),
+            currency: String(currency)
           },
 
           interaction: {
@@ -47,50 +52,47 @@ export default async function handler(req, res) {
             merchant: {
               name: "Veloria Makeup and Skincare"
             },
-
-            returnUrl:
-              "https://project-rqpjs.vercel.app/payment-success"
+            returnUrl: "https://project-rqpjs.vercel.app/payment-success",
+            cancelUrl: "https://project-rqpjs.vercel.app/"
           }
-
         })
       }
     );
 
-    const data = await response.json();
+    const data = await gatewayResponse.json();
 
-    console.log(data);
-
-    if (
-      data.session &&
-      data.session.id
-    ) {
-
-      const paymentUrl =
-        `https://ap-gateway.mastercard.com/checkout/pay/${data.session.id}`;
-
-      return res.status(200).json({
-        success: true,
-        paymentUrl
-      });
-
-    } else {
+    if (!gatewayResponse.ok || data.result === "ERROR") {
+      console.log("FABMISR ERROR:", JSON.stringify(data, null, 2));
 
       return res.status(500).json({
         success: false,
-        data
+        error: "FABMISR rejected the request",
+        details: data
       });
-
     }
 
-  } catch (error) {
+    if (!data.session || !data.session.id) {
+      console.log("NO SESSION:", JSON.stringify(data, null, 2));
 
-    console.log(error);
+      return res.status(500).json({
+        success: false,
+        error: "No payment session returned",
+        details: data
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      sessionId: data.session.id,
+      paymentUrl: `https://ap-gateway.mastercard.com/checkout/pay/${data.session.id}`
+    });
+
+  } catch (error) {
+    console.log("SERVER ERROR:", error);
 
     return res.status(500).json({
       success: false,
       error: error.message
     });
-
   }
-
 }
