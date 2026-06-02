@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Veloria Secure Payment</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --pink:#f6c8d8;
-      --pink2:#ee9fbd;
+      --pink:#f7c8d8;
+      --pink-strong:#ee9fbd;
       --blue:#dcefff;
-      --blue2:#9fd2ff;
+      --blue-strong:#9fd2ff;
       --ink:#202026;
-      --muted:#777982;
-      --white:rgba(255,255,255,.82);
+      --muted:#747781;
+      --white:rgba(255,255,255,.78);
+      --shadow:0 28px 80px rgba(145,195,235,.22);
     }
 
     *{margin:0;padding:0;box-sizing:border-box}
@@ -26,8 +29,8 @@
       font-family:"Inter",sans-serif;
       color:var(--ink);
       background:
-        radial-gradient(circle at 14% 12%, rgba(246,200,216,.72), transparent 30%),
-        radial-gradient(circle at 86% 16%, rgba(220,239,255,.95), transparent 34%),
+        radial-gradient(circle at 14% 10%, rgba(247,200,216,.75), transparent 31%),
+        radial-gradient(circle at 86% 14%, rgba(220,239,255,.95), transparent 35%),
         linear-gradient(135deg,#fffafd,#f7fbff);
     }
 
@@ -36,72 +39,161 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:28px 16px;
+      padding:28px 14px;
+      position:relative;
+      overflow:hidden;
     }
 
-    .card{
+    .page::before{
+      content:"";
+      position:absolute;
+      width:460px;
+      height:460px;
+      border-radius:50%;
+      background:linear-gradient(135deg,rgba(247,200,216,.28),rgba(220,239,255,.45));
+      top:-160px;
+      right:-140px;
+      filter:blur(8px);
+      animation:softFloat 7s ease-in-out infinite alternate;
+    }
+
+    .page::after{
+      content:"";
+      position:absolute;
+      width:330px;
+      height:330px;
+      border-radius:50%;
+      background:linear-gradient(135deg,rgba(220,239,255,.55),rgba(247,200,216,.30));
+      left:-100px;
+      bottom:-110px;
+      filter:blur(10px);
+      animation:softFloat 8s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes softFloat{
+      from{transform:translateY(0) scale(1)}
+      to{transform:translateY(18px) scale(1.05)}
+    }
+
+    .shell{
       width:100%;
       max-width:860px;
-      background:rgba(255,255,255,.68);
-      backdrop-filter:blur(22px);
+      position:relative;
+      z-index:2;
+      background:rgba(255,255,255,.64);
+      backdrop-filter:blur(24px);
       border:1px solid rgba(255,255,255,.95);
-      border-radius:36px;
-      box-shadow:0 30px 90px rgba(140,190,230,.22);
-      padding:34px;
+      border-radius:38px;
+      box-shadow:var(--shadow);
+      padding:30px;
       display:grid;
       grid-template-columns:1fr 360px;
       gap:28px;
       align-items:center;
+      animation:fadeUp .75s ease both;
     }
 
-    .brand{
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(16px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .brand-side{
       text-align:center;
-      padding:10px;
+      padding:10px 12px;
     }
 
-    .brand img{
-      width:150px;
-      height:auto;
+    .logo-cloud{
+      width:168px;
+      height:168px;
+      margin:0 auto 18px;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.95), rgba(255,255,255,.58) 52%, rgba(220,239,255,.45)),
+        linear-gradient(135deg,rgba(247,200,216,.42),rgba(220,239,255,.58));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 22px 55px rgba(238,159,189,.18);
+      border:1px solid rgba(255,255,255,.95);
+    }
+
+    .logo-cloud img{
+      width:138px;
+      height:138px;
       object-fit:contain;
       mix-blend-mode:multiply;
-      margin-bottom:22px;
+      opacity:.96;
     }
 
     h1{
       font-family:"DM Serif Display",serif;
-      font-size:52px;
       font-weight:400;
+      font-size:48px;
       line-height:1.05;
+      letter-spacing:-.4px;
       margin-bottom:12px;
     }
 
     h1 span{
-      background:linear-gradient(135deg,var(--pink2),var(--blue2));
+      background:linear-gradient(135deg,var(--pink-strong),var(--blue-strong));
       -webkit-background-clip:text;
       color:transparent;
     }
 
     .sub{
+      max-width:390px;
+      margin:0 auto;
       color:var(--muted);
-      font-size:15px;
-      line-height:1.7;
-      max-width:420px;
-      margin:auto;
+      font-size:14.5px;
+      line-height:1.75;
+    }
+
+    .trust-strip{
+      margin:22px auto 0;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:rgba(255,255,255,.68);
+      border:1px solid rgba(255,255,255,.95);
+      padding:10px 14px;
+      border-radius:999px;
+      color:#4e535c;
+      font-size:12px;
+      font-weight:700;
     }
 
     .pay-box{
       background:rgba(255,255,255,.9);
-      border:1px solid #fff;
+      border:1px solid rgba(255,255,255,1);
       border-radius:30px;
-      padding:28px;
-      box-shadow:0 22px 60px rgba(0,0,0,.07);
+      padding:27px;
+      box-shadow:0 22px 60px rgba(0,0,0,.075);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .pay-box::before{
+      content:"";
+      position:absolute;
+      width:170px;
+      height:170px;
+      border-radius:50%;
+      background:linear-gradient(135deg,rgba(247,200,216,.34),rgba(220,239,255,.55));
+      top:-72px;
+      right:-70px;
+    }
+
+    .pay-content{
+      position:relative;
+      z-index:1;
     }
 
     .top{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      margin-bottom:22px;
+      margin-bottom:20px;
     }
 
     .secure{
@@ -121,6 +213,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
+      box-shadow:0 10px 24px rgba(238,159,189,.18);
     }
 
     h2{
@@ -130,22 +223,28 @@
       margin-bottom:18px;
     }
 
+    .divider{
+      height:1px;
+      background:linear-gradient(90deg,var(--pink),var(--blue));
+      margin-bottom:18px;
+    }
+
     .row{
       display:flex;
       justify-content:space-between;
-      font-size:14px;
-      margin:14px 0;
       gap:18px;
+      font-size:13.5px;
+      margin:13px 0;
     }
 
     .row span:first-child{color:var(--muted)}
     .row span:last-child{font-weight:700;text-align:right}
 
     .amount{
-      margin:24px 0;
+      margin:23px 0 18px;
       padding:20px;
       border-radius:22px;
-      background:linear-gradient(135deg,rgba(246,200,216,.42),rgba(220,239,255,.62));
+      background:linear-gradient(135deg,rgba(247,200,216,.42),rgba(220,239,255,.62));
       text-align:center;
     }
 
@@ -160,6 +259,7 @@
       color:#e48baa;
       font-size:34px;
       font-weight:800;
+      letter-spacing:.2px;
     }
 
     .btn{
@@ -181,35 +281,38 @@
       background:#303038;
     }
 
+    .btn:disabled{
+      cursor:not-allowed;
+      opacity:.7;
+      transform:none;
+    }
+
     .note{
       text-align:center;
       margin:14px 0 18px;
       color:var(--muted);
       font-size:12px;
+      line-height:1.55;
     }
 
     .logos{
       display:flex;
       justify-content:center;
       align-items:center;
-      gap:24px;
+      gap:26px;
       background:#fff;
       border-radius:18px;
       padding:16px;
       border:1px solid #f1f1f1;
     }
 
-    .visa{
-      height:34px;
-      width:auto;
+    .logos img{
       object-fit:contain;
+      display:block;
     }
 
-    .mastercard{
-      height:38px;
-      width:auto;
-      object-fit:contain;
-    }
+    .visa{height:34px}
+    .mastercard{height:38px}
 
     .powered{
       text-align:center;
@@ -221,73 +324,126 @@
     .powered b{color:var(--ink)}
 
     @media(max-width:820px){
-      .card{
+      .shell{
         grid-template-columns:1fr;
         max-width:500px;
+        padding:24px;
       }
 
-      h1{font-size:42px}
-      .brand img{width:130px}
+      h1{font-size:40px}
+      .logo-cloud{
+        width:142px;
+        height:142px;
+      }
+      .logo-cloud img{
+        width:118px;
+        height:118px;
+      }
     }
   </style>
 </head>
 
 <body>
   <main class="page">
-    <section class="card">
+    <section class="shell">
 
-      <div class="brand">
-        <img src="Untitled_design.svg" alt="Veloria Logo">
+      <div class="brand-side">
+        <div class="logo-cloud">
+          <img src="Untitled_design.svg" alt="Veloria Logo">
+        </div>
 
         <h1>
           Secure <span>Payment</span>
         </h1>
 
         <p class="sub">
-          Complete your order safely through FABMISR secure card payment page.
-        </p>
-      </div>
-
-      <div class="pay-box">
-        <div class="top">
-          <div class="secure">● Secure Session</div>
-          <div class="lock">🔒</div>
-        </div>
-
-        <h2>Order Summary</h2>
-
-        <div class="row">
-          <span>Order</span>
-          <span>#VL-2054</span>
-        </div>
-
-        <div class="row">
-          <span>Status</span>
-          <span>Ready</span>
-        </div>
-
-        <div class="amount">
-          <small>Total Amount</small>
-          <strong>EGP 1,250</strong>
-        </div>
-
-        <button class="btn">Pay Now</button>
-
-        <p class="note">
-          You’ll be redirected to FABMISR official gateway.
+          Complete your Veloria order safely through the official bank card payment gateway.
         </p>
 
-        <div class="logos">
-          <img class="visa" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
-          <img class="mastercard" src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
-        </div>
-
-        <div class="powered">
-          Secured by <b>FABMISR</b>
+        <div class="trust-strip">
+          🔒 SSL Secure • Card details are not stored by Veloria
         </div>
       </div>
+
+      <aside class="pay-box">
+        <div class="pay-content">
+          <div class="top">
+            <div class="secure">● Secure Session</div>
+            <div class="lock">🔒</div>
+          </div>
+
+          <h2>Order Summary</h2>
+          <div class="divider"></div>
+
+          <div class="row">
+            <span>Order</span>
+            <span>#VL-2054</span>
+          </div>
+
+          <div class="row">
+            <span>Status</span>
+            <span>Ready</span>
+          </div>
+
+          <div class="amount">
+            <small>Total Amount</small>
+            <strong>EGP 1,250</strong>
+          </div>
+
+          <button class="btn" onclick="startPayment()">Pay Now</button>
+
+          <p class="note">
+            You’ll be redirected to FABMISR secure payment page.
+          </p>
+
+          <div class="logos">
+            <img class="visa" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
+            <img class="mastercard" src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+          </div>
+
+          <div class="powered">
+            Secured by <b>FABMISR</b>
+          </div>
+        </div>
+      </aside>
 
     </section>
   </main>
+
+  <script>
+    async function startPayment() {
+      const button = document.querySelector(".btn");
+      button.innerText = "Redirecting...";
+      button.disabled = true;
+
+      try {
+        const response = await fetch("/api/create-payment", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            orderId: "VL-2054",
+            amount: 1250,
+            currency: "EGP"
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.paymentUrl) {
+          window.location.href = data.paymentUrl;
+        } else {
+          alert("Payment link could not be created. Please try again.");
+          button.innerText = "Pay Now";
+          button.disabled = false;
+        }
+      } catch (error) {
+        alert("Something went wrong. Please try again.");
+        button.innerText = "Pay Now";
+        button.disabled = false;
+      }
+    }
+  </script>
 </body>
 </html>
