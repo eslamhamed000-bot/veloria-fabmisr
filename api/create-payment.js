@@ -7,15 +7,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { orderId, amount, currency } = req.body || {};
-
-    if (!orderId || !amount || !currency) {
-      return res.status(400).json({
-        success: false,
-        error: "Missing orderId, amount, or currency"
-      });
-    }
-
     const merchantId = process.env.FABMISR_MERCHANT_ID;
     const password = process.env.FABMISR_PASSWORD;
 
@@ -40,20 +31,9 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           apiOperation: "CREATE_CHECKOUT_SESSION",
-
-          order: {
-            id: String(orderId),
-            amount: Number(amount).toFixed(2),
-            currency: String(currency)
-          },
-
           interaction: {
             operation: "PURCHASE",
-            merchant: {
-              name: "Veloria Makeup and Skincare"
-            },
-            returnUrl: "https://project-rqpjs.vercel.app/payment-success",
-            cancelUrl: "https://project-rqpjs.vercel.app/"
+            returnUrl: "https://project-rqpjs.vercel.app/"
           }
         })
       }
@@ -66,25 +46,15 @@ export default async function handler(req, res) {
 
       return res.status(500).json({
         success: false,
-        error: "FABMISR rejected the request",
-        details: data
-      });
-    }
-
-    if (!data.session || !data.session.id) {
-      console.log("NO SESSION:", JSON.stringify(data, null, 2));
-
-      return res.status(500).json({
-        success: false,
-        error: "No payment session returned",
+        error: "FABMISR rejected request",
         details: data
       });
     }
 
     return res.status(200).json({
       success: true,
-      sessionId: data.session.id,
-      paymentUrl: `https://ap-gateway.mastercard.com/checkout/pay/${data.session.id}`
+      merchantId,
+      sessionId: data.session.id
     });
 
   } catch (error) {
