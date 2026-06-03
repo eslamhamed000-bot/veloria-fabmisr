@@ -238,10 +238,11 @@
         }
 
         Checkout.configure({
-          session: {
-            id: data.sessionId
-          }
-        });
+  merchant: data.merchantId,
+  session: {
+    id: data.sessionId
+  }
+});
 
         checkoutReady = true;
 
