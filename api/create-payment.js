@@ -1,30 +1,22 @@
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({
-      success: false,
-      error: "Method not allowed"
-    });
+    return res.status(405).json({ success: false, error: "Method not allowed" });
   }
 
   try {
     const merchantId = process.env.FABMISR_MERCHANT_ID;
     const password = process.env.FABMISR_PASSWORD;
+    const apiVersion = "61";
 
     if (!merchantId || !password) {
-      return res.status(500).json({
-        success: false,
-        error: "Missing FABMISR credentials"
-      });
+      return res.status(500).json({ success: false, error: "Missing FABMISR credentials" });
     }
 
-    const auth = Buffer
-      .from(`merchant.${merchantId}:${password}`)
-      .toString("base64");
+    const auth = Buffer.from(`merchant.${merchantId}:${password}`).toString("base64");
 
     const orderId = `VELORIA-${Date.now()}`;
     const amount = "1250.00";
     const currency = "EGP";
-    const apiVersion = "61";
 
     const createResponse = await fetch(
       `https://ap-gateway.mastercard.com/api/rest/version/${apiVersion}/merchant/${merchantId}/session`,
@@ -32,7 +24,7 @@ export default async function handler(req, res) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Basic ${auth}`
+          Authorization: `Basic ${auth}`
         },
         body: JSON.stringify({
           session: {
@@ -44,8 +36,7 @@ export default async function handler(req, res) {
 
     const createData = await createResponse.json();
 
-    if (!createResponse.ok || createData.result !== "SUCCESS") {
-      console.log("CREATE SESSION ERROR:", JSON.stringify(createData, null, 2));
+    if (!createResponse.ok || createData.result !== "SUCCESS" || !createData.session?.id) {
       return res.status(500).json({
         success: false,
         step: "create-session",
@@ -61,18 +52,22 @@ export default async function handler(req, res) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Basic ${auth}`
+          Authorization: `Basic ${auth}`
         },
         body: JSON.stringify({
           order: {
             id: orderId,
             amount,
-            currency
+            currency,
+            description: "Veloria Makeup and Skincare Order"
           },
-          authentication: {
-            acceptVersions: "3DS2",
-            channel: "PAYER_BROWSER",
-            purpose: "PAYMENT_TRANSACTION"
+          transaction: {
+            reference: orderId
+          },
+          interaction: {
+            merchant: {
+              name: "Veloria Make Up & Skin Care"
+            }
           }
         })
       }
@@ -81,7 +76,6 @@ export default async function handler(req, res) {
     const updateData = await updateResponse.json();
 
     if (!updateResponse.ok || updateData.result === "ERROR") {
-      console.log("UPDATE SESSION ERROR:", JSON.stringify(updateData, null, 2));
       return res.status(500).json({
         success: false,
         step: "update-session",
@@ -100,8 +94,6 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.log("SERVER ERROR:", error);
-
     return res.status(500).json({
       success: false,
       error: error.message
