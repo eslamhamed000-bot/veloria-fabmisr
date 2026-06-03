@@ -251,7 +251,9 @@
         status.innerHTML = "Secure session ready.<br>Opening bank payment page...";
         payBtn.style.display = "block";
 
-        setTimeout(openCheckout, 700);
+       document.getElementById("payBtn").style.display = "block";
+document.getElementById("status").innerHTML =
+  "Click the button below to continue to secure bank payment.";
 
       } catch (error) {
         console.error(error);
