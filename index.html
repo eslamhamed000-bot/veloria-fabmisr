@@ -218,10 +218,16 @@
       const payBtn = document.getElementById("payBtn");
 
       try {
-        const response = await fetch("/api/create-payment", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" }
-        });
+       const response = await fetch("/api/create-payment", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    amount: 100,
+    orderId: "TEST-" + Date.now()
+  })
+});
 
         const data = await response.json();
         console.log("PAYMENT DATA:", data);
