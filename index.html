@@ -237,12 +237,14 @@
           return;
         }
 
-     Checkout.configure({
+    Checkout.configure({
   session: {
     id: data.sessionId
   },
 
   interaction: {
+    operation: "PURCHASE",
+
     merchant: {
       name: "Veloria Makeup and Skincare"
     }
