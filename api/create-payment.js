@@ -118,12 +118,13 @@ export default async function handler(req, res) {
       =========================
     */
 
-    return res.status(200).json({
-      success: true,
-      sessionId,
-      orderId,
-      updateData
-    });
+   const paymentUrl =
+`https://ap-gateway.mastercard.com/checkout/pay/${sessionId}`;
+
+return res.status(200).json({
+  success: true,
+  paymentUrl
+});
 
   } catch (error) {
 
