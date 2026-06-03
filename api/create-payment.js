@@ -22,7 +22,8 @@ export default async function handler(req, res) {
       .toString("base64");
 
     const orderId = `VELORIA-${Date.now()}`;
-    const amount = "1250.00";
+const amount = req.body.amount;
+const orderId = req.body.orderId;
     const currency = "EGP";
     const apiVersion = "61";
 
