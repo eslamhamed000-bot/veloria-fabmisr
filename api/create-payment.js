@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     if (!merchantId || !password) {
       return res.status(500).json({
         success: false,
-        error: "Missing credentials"
+        error: "Missing FABMISR credentials"
       });
     }
 
@@ -21,14 +21,13 @@ export default async function handler(req, res) {
       .from(`merchant.${merchantId}:${password}`)
       .toString("base64");
 
-    /*
-      =========================
-      STEP 1 — CREATE SESSION
-      =========================
-    */
+    const orderId = `VELORIA-${Date.now()}`;
+    const amount = "1250.00";
+    const currency = "EGP";
+    const apiVersion = "61";
 
     const createResponse = await fetch(
-      `https://ap-gateway.mastercard.com/api/rest/version/61/merchant/${merchantId}/session`,
+      `https://ap-gateway.mastercard.com/api/rest/version/${apiVersion}/merchant/${merchantId}/session`,
       {
         method: "POST",
         headers: {
@@ -45,16 +44,8 @@ export default async function handler(req, res) {
 
     const createData = await createResponse.json();
 
-    console.log(
-      "CREATE SESSION RESPONSE:",
-      JSON.stringify(createData, null, 2)
-    );
-
-    if (
-      !createResponse.ok ||
-      createData.result === "ERROR" ||
-      !createData.session?.id
-    ) {
+    if (!createResponse.ok || createData.result !== "SUCCESS") {
+      console.log("CREATE SESSION ERROR:", JSON.stringify(createData, null, 2));
       return res.status(500).json({
         success: false,
         step: "create-session",
@@ -64,16 +55,8 @@ export default async function handler(req, res) {
 
     const sessionId = createData.session.id;
 
-    /*
-      =========================
-      STEP 2 — UPDATE SESSION
-      =========================
-    */
-
-    const orderId = `VELORIA-${Date.now()}`;
-
     const updateResponse = await fetch(
-      `https://ap-gateway.mastercard.com/api/rest/version/61/merchant/${merchantId}/session/${sessionId}`,
+      `https://ap-gateway.mastercard.com/api/rest/version/${apiVersion}/merchant/${merchantId}/session/${sessionId}`,
       {
         method: "PUT",
         headers: {
@@ -83,10 +66,11 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           order: {
             id: orderId,
-            amount: "1250.00",
-            currency: "EGP"
+            amount,
+            currency
           },
           authentication: {
+            acceptVersions: "3DS2",
             channel: "PAYER_BROWSER",
             purpose: "PAYMENT_TRANSACTION"
           }
@@ -96,15 +80,8 @@ export default async function handler(req, res) {
 
     const updateData = await updateResponse.json();
 
-    console.log(
-      "UPDATE SESSION RESPONSE:",
-      JSON.stringify(updateData, null, 2)
-    );
-
-    if (
-      !updateResponse.ok ||
-      updateData.result === "ERROR"
-    ) {
+    if (!updateResponse.ok || updateData.result === "ERROR") {
+      console.log("UPDATE SESSION ERROR:", JSON.stringify(updateData, null, 2));
       return res.status(500).json({
         success: false,
         step: "update-session",
@@ -112,22 +89,17 @@ export default async function handler(req, res) {
       });
     }
 
-    /*
-      =========================
-      SUCCESS
-      =========================
-    */
-
-   const paymentUrl =
-`https://ap-gateway.mastercard.com/checkout/pay/${sessionId}`;
-
-return res.status(200).json({
-  success: true,
-  paymentUrl
-});
+    return res.status(200).json({
+      success: true,
+      merchantId,
+      sessionId,
+      orderId,
+      amount,
+      currency,
+      apiVersion
+    });
 
   } catch (error) {
-
     console.log("SERVER ERROR:", error);
 
     return res.status(500).json({
