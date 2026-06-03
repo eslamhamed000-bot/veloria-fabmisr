@@ -6,30 +6,32 @@ export default async function handler(req, res) {
   try {
     const { sessionId, orderId, amount } = req.body;
 
-    if (!sessionId || !orderId) {
+    if (!sessionId || !orderId || !amount) {
       return res.status(400).json({
         success: false,
-        error: "Missing sessionId or orderId"
+        error: "Missing sessionId, orderId or amount"
       });
     }
 
-    const merchantId = process.env.MERCHANT_ID;
-    const apiPassword = process.env.API_PASSWORD;
+    const merchantId = process.env.FABMISR_MERCHANT_ID;
+    const password = process.env.FABMISR_PASSWORD;
 
     const url = `https://fabmisr.gateway.mastercard.com/api/rest/version/100/merchant/${merchantId}/order/${orderId}/transaction`;
+
+    const auth = Buffer.from(`merchant.${merchantId}:${password}`).toString("base64");
 
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Basic " + Buffer.from(`merchant.${merchantId}:${apiPassword}`).toString("base64")
+        "Authorization": `Basic ${auth}`
       },
       body: JSON.stringify({
         apiOperation: "PAY",
         session: {
           id: sessionId
         },
-        transaction: {
+        order: {
           amount: amount,
           currency: "EGP"
         }
@@ -40,7 +42,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      gatewayResponse: data
+      result: data
     });
 
   } catch (error) {
