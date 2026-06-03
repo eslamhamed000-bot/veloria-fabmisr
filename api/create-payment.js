@@ -7,13 +7,6 @@ export default async function handler(req, res) {
     const merchantId = process.env.FABMISR_MERCHANT_ID;
     const password = process.env.FABMISR_PASSWORD;
 
-    if (!merchantId || !password) {
-      return res.status(500).json({
-        success: false,
-        error: "Missing FABMISR credentials"
-      });
-    }
-
     const orderId = `VL-${Date.now()}`;
     const amount = "1250.00";
     const currency = "EGP";
@@ -26,8 +19,6 @@ export default async function handler(req, res) {
     params.append("merchant", merchantId);
 
     params.append("interaction.operation", "PURCHASE");
-    params.append("interaction.returnUrl", "https://project-rqpjs.vercel.app/");
-    params.append("interaction.cancelUrl", "https://project-rqpjs.vercel.app/");
 
     params.append("order.id", orderId);
     params.append("order.amount", amount);
@@ -64,14 +55,6 @@ export default async function handler(req, res) {
 
     const sessionId = data["session.id"];
 
-    if (!sessionId) {
-      return res.status(500).json({
-        success: false,
-        error: "No session id returned",
-        details: data
-      });
-    }
-
     return res.status(200).json({
       success: true,
       orderId,
@@ -83,8 +66,6 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.log("SERVER ERROR:", error);
-
     return res.status(500).json({
       success: false,
       error: error.message
