@@ -6,373 +6,454 @@
   <title>Veloria Secure Payment</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: Inter, Arial, sans-serif;
       min-height: 100vh;
-      background: linear-gradient(135deg, #f8dce9 0%, #e8f5ff 100%);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 205, 224, .65), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(197, 232, 255, .75), transparent 38%),
+        linear-gradient(135deg, #fff7fb, #eef8ff);
+      color: #191919;
       display: flex;
-      align-items: center;
       justify-content: center;
-      color: #222;
+      align-items: center;
+      padding: 24px;
     }
 
-    .page {
+    .shell {
       width: 100%;
-      max-width: 980px;
-      padding: 28px;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.82);
-      backdrop-filter: blur(18px);
-      border-radius: 32px;
-      box-shadow: 0 30px 80px rgba(80, 60, 80, 0.15);
-      padding: 42px;
+      max-width: 1040px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(255,255,255,.9);
+      backdrop-filter: blur(24px);
+      border-radius: 34px;
+      box-shadow: 0 28px 90px rgba(80, 65, 90, .14);
+      overflow: hidden;
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 36px;
-      border: 1px solid rgba(255,255,255,0.75);
+      grid-template-columns: 1fr 420px;
     }
 
-    .brand {
+    .left {
+      padding: 46px;
+      position: relative;
+    }
+
+    .logo-wrap {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 56px;
+      gap: 16px;
+      margin-bottom: 52px;
     }
 
-    .brand img {
-      width: 58px;
-      height: 58px;
+    .logo-wrap img {
+      width: 72px;
+      height: 72px;
       object-fit: contain;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.7);
-      padding: 6px;
+      mix-blend-mode: multiply;
     }
 
-    .brand-text h3 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: 0.3px;
+    .brand-name {
       font-family: Georgia, serif;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1;
     }
 
-    .brand-text p {
-      margin: 3px 0 0;
+    .brand-sub {
       font-size: 12px;
       color: #777;
+      margin-top: 5px;
+      letter-spacing: .4px;
     }
 
     h1 {
-      margin: 0 0 14px;
-      font-size: 52px;
-      line-height: 1.04;
       font-family: Georgia, serif;
-      font-weight: 600;
+      font-size: 56px;
+      line-height: 1.03;
+      margin: 0 0 18px;
+      letter-spacing: -.8px;
     }
 
-    .pink {
-      color: #d98cab;
-    }
+    .pink { color: #d98cad; }
+    .blue { color: #92cce9; }
 
-    .blue {
-      color: #9ccbe7;
-    }
-
-    .subtitle {
+    .desc {
       font-size: 17px;
-      line-height: 1.7;
+      line-height: 1.8;
       color: #555;
-      max-width: 460px;
-      margin-bottom: 36px;
+      max-width: 480px;
+      margin-bottom: 32px;
     }
 
-    .security-note {
-      display: inline-block;
-      background: rgba(217, 140, 171, 0.18);
-      padding: 9px 13px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
+    .trust {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 420px;
+    }
+
+    .trust div {
+      background: rgba(255,255,255,.58);
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 16px;
+      padding: 13px 15px;
+      font-size: 14px;
       color: #333;
     }
 
-    .summary {
-      background: rgba(255,255,255,0.72);
-      border-radius: 26px;
+    .right {
+      padding: 34px;
+      background: rgba(255,255,255,.55);
+      border-left: 1px solid rgba(255,255,255,.85);
+    }
+
+    .payment-card {
+      background: white;
+      border-radius: 28px;
       padding: 28px;
-      box-shadow: 0 18px 50px rgba(80, 60, 80, 0.12);
-      border: 1px solid rgba(255,255,255,0.8);
+      box-shadow: 0 20px 60px rgba(80, 70, 90, .12);
     }
 
-    .summary h2 {
-      margin: 0 0 24px;
-      font-size: 26px;
-      font-family: Georgia, serif;
-    }
-
-    .row {
+    .top-row {
       display: flex;
       justify-content: space-between;
-      padding: 13px 0;
-      border-bottom: 1px solid rgba(0,0,0,0.07);
-      font-size: 14px;
+      align-items: center;
+      margin-bottom: 22px;
     }
 
-    .row span:first-child {
-      color: #777;
+    .top-row h2 {
+      font-family: Georgia, serif;
+      font-size: 27px;
+      margin: 0;
     }
 
-    .amount-box {
-      margin: 26px 0;
-      padding: 22px;
+    .badge {
+      font-size: 12px;
+      background: #ecf8ff;
+      color: #357c9b;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .order-box {
+      background: linear-gradient(135deg, rgba(255,229,240,.85), rgba(232,247,255,.95));
       border-radius: 22px;
-      background: linear-gradient(135deg, rgba(248,220,233,0.85), rgba(232,245,255,0.9));
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .line span { color: #777; }
+    .line strong { color: #222; }
+
+    .amount {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(0,0,0,.08);
       text-align: center;
     }
 
-    .amount-box small {
-      display: block;
+    .amount small {
       color: #777;
-      margin-bottom: 6px;
+      display: block;
+      margin-bottom: 4px;
     }
 
-    .amount {
-      font-size: 42px;
-      font-weight: 800;
+    .amount div {
+      font-size: 38px;
+      font-weight: 900;
       color: #c96f95;
+    }
+
+    .cards-brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .visa-logo {
+      font-weight: 900;
+      font-size: 30px;
+      color: #1a1f71;
+      letter-spacing: -1.5px;
+      font-style: italic;
+    }
+
+    .mc-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      color: #222;
+      font-size: 13px;
+    }
+
+    .mc-mark {
+      display: flex;
+      align-items: center;
+    }
+
+    .mc-red, .mc-orange {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .mc-red { background: #eb001b; }
+    .mc-orange {
+      background: #f79e1b;
+      margin-left: -11px;
+      opacity: .92;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 800;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid #e8e8e8;
+      outline: none;
+      background: #fbfbfb;
+      border-radius: 16px;
+      padding: 16px 15px;
+      font-size: 15px;
+      margin-bottom: 16px;
+      transition: .2s;
+    }
+
+    input:focus {
+      border-color: #d98cad;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(217,140,173,.12);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
     }
 
     button {
       width: 100%;
       border: none;
-      background: #181818;
+      margin-top: 8px;
+      background: #151515;
       color: white;
-      padding: 18px 22px;
       border-radius: 18px;
+      padding: 18px;
       font-size: 16px;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
-      transition: 0.25s ease;
+      transition: .25s;
     }
 
     button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 14px 28px rgba(0,0,0,0.18);
+      box-shadow: 0 16px 32px rgba(0,0,0,.18);
     }
 
     button:disabled {
-      opacity: 0.6;
+      opacity: .55;
       cursor: not-allowed;
       transform: none;
     }
 
-    .cards {
-      margin-top: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 22px;
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.65);
-      font-weight: 800;
-      color: #222;
-    }
-
-    .visa {
-      font-size: 27px;
-      color: #1a1f71;
-      font-weight: 900;
-      letter-spacing: -1px;
-    }
-
-    .mastercard {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 13px;
-      color: #333;
-    }
-
-    .mc-circles {
-      display: flex;
-      margin-right: -5px;
-    }
-
-    .circle {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    .red {
-      background: #eb001b;
-    }
-
-    .orange {
-      background: #f79e1b;
-      margin-left: -10px;
-      opacity: 0.92;
-    }
-
-    .secure {
-      margin-top: 16px;
+    .note {
       text-align: center;
-      font-size: 13px;
-      color: #666;
+      color: #777;
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 16px;
     }
 
-    .success-box {
+    .status {
       display: none;
-      margin-top: 18px;
-      padding: 14px;
-      background: rgba(156, 203, 231, 0.24);
+      margin-top: 14px;
+      background: #eef8ff;
+      border: 1px solid #d7efff;
+      color: #2a6177;
+      padding: 13px;
       border-radius: 14px;
       font-size: 13px;
-      color: #333;
       line-height: 1.6;
     }
 
-    @media (max-width: 800px) {
-      .card {
-        grid-template-columns: 1fr;
-        padding: 28px;
-      }
-
-      h1 {
-        font-size: 40px;
-      }
-
-      .brand {
-        margin-bottom: 32px;
-      }
+    @media (max-width: 850px) {
+      body { padding: 14px; align-items: flex-start; }
+      .shell { grid-template-columns: 1fr; border-radius: 26px; }
+      .left { padding: 30px 24px; }
+      .right { padding: 20px; border-left: none; }
+      h1 { font-size: 40px; }
+      .desc { font-size: 15px; }
+      .payment-card { padding: 22px; border-radius: 24px; }
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+      .amount div { font-size: 34px; }
     }
   </style>
 </head>
 
 <body>
-  <main class="page">
-    <section class="card">
-
-      <div>
-        <div class="brand">
-          <img src="./Untitled_design.svg" alt="Veloria Logo" />
-          <div class="brand-text">
-            <h3>Veloria</h3>
-            <p>Make Up & Skin Care</p>
-          </div>
-        </div>
-
-        <h1>
-          Secure <span class="pink">Payment</span><br />
-          with <span class="blue">FABMISR</span>
-        </h1>
-
-        <p class="subtitle">
-          Complete your Veloria order safely through our secure bank payment system.
-          Your card details are protected and never stored by Veloria.
-        </p>
-
-        <div class="security-note">
-          🔒 SSL Secure · Bank protected payment session
+  <main class="shell">
+    <section class="left">
+      <div class="logo-wrap">
+        <img src="./Untitled_design.svg" alt="Veloria Logo">
+        <div>
+          <div class="brand-name">Veloria</div>
+          <div class="brand-sub">Make Up & Skin Care</div>
         </div>
       </div>
 
-      <div class="summary">
-        <h2>Order Summary</h2>
+      <h1>
+        Secure <span class="pink">Card</span><br>
+        Payment
+      </h1>
 
-        <div class="row">
-          <span>Order</span>
-          <strong>#VL-2054</strong>
+      <p class="desc">
+        Complete your Veloria order safely through FABMISR secure payment processing.
+        Your card details are protected through the banking gateway.
+      </p>
+
+      <div class="trust">
+        <div>🔒 SSL secured payment experience</div>
+        <div>💳 Visa & Mastercard supported</div>
+        <div>🛡️ 3D Secure / OTP verification supported</div>
+      </div>
+    </section>
+
+    <section class="right">
+      <div class="payment-card">
+        <div class="top-row">
+          <h2>Payment</h2>
+          <span class="badge">Secure Session</span>
         </div>
 
-        <div class="row">
-          <span>Status</span>
-          <strong>Ready</strong>
+        <div class="order-box">
+          <div class="line">
+            <span>Order</span>
+            <strong>#VL-2054</strong>
+          </div>
+          <div class="line">
+            <span>Status</span>
+            <strong>Ready</strong>
+          </div>
+
+          <div class="amount">
+            <small>Total Amount</small>
+            <div>EGP 1,250</div>
+          </div>
         </div>
 
-        <div class="amount-box">
-          <small>Total Amount</small>
-          <div class="amount">EGP 1,250</div>
-        </div>
-
-        <button id="payBtn" onclick="createPaymentSession()">
-          Continue to Secure Payment
-        </button>
-
-        <div class="cards">
-          <span class="visa">VISA</span>
-
-          <div class="mastercard">
-            <span class="mc-circles">
-              <span class="circle red"></span>
-              <span class="circle orange"></span>
+        <div class="cards-brand">
+          <div class="visa-logo">VISA</div>
+          <div class="mc-logo">
+            <span class="mc-mark">
+              <span class="mc-red"></span>
+              <span class="mc-orange"></span>
             </span>
-            <strong>mastercard</strong>
+            mastercard
           </div>
         </div>
 
-        <div class="secure">
-          Secured by <strong>FABMISR</strong>
+        <form onsubmit="startPayment(event)">
+          <label>Card Number</label>
+          <input id="cardNumber" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456" required>
+
+          <label>Cardholder Name</label>
+          <input id="cardName" placeholder="Name on card" required>
+
+          <div class="grid-2">
+            <div>
+              <label>Expiry</label>
+              <input id="expiry" inputmode="numeric" maxlength="5" placeholder="MM/YY" required>
+            </div>
+            <div>
+              <label>CVV</label>
+              <input id="cvv" inputmode="numeric" maxlength="4" placeholder="123" required>
+            </div>
+          </div>
+
+          <button id="payBtn" type="submit">Pay Securely</button>
+        </form>
+
+        <div class="status" id="statusBox"></div>
+
+        <div class="note">
+          Card data is not stored by Veloria. Payment is processed securely through FABMISR.
         </div>
-
-        <div class="success-box" id="successBox"></div>
       </div>
-
     </section>
   </main>
 
   <script>
-    async function createPaymentSession() {
+    const cardNumber = document.getElementById("cardNumber");
+    const expiry = document.getElementById("expiry");
+
+    cardNumber.addEventListener("input", function () {
+      let value = this.value.replace(/\D/g, "").slice(0, 16);
+      this.value = value.replace(/(.{4})/g, "$1 ").trim();
+    });
+
+    expiry.addEventListener("input", function () {
+      let value = this.value.replace(/\D/g, "").slice(0, 4);
+      if (value.length >= 3) value = value.slice(0, 2) + "/" + value.slice(2);
+      this.value = value;
+    });
+
+    async function startPayment(event) {
+      event.preventDefault();
+
       const button = document.getElementById("payBtn");
-      const successBox = document.getElementById("successBox");
+      const statusBox = document.getElementById("statusBox");
 
       button.disabled = true;
       button.innerText = "Creating secure session...";
-      successBox.style.display = "none";
+      statusBox.style.display = "none";
 
       try {
         const response = await fetch("/api/create-payment", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          }
+          headers: { "Content-Type": "application/json" }
         });
 
         const data = await response.json();
+        console.log("Payment session:", data);
 
-        console.log("Payment session response:", data);
-
-        if (data.success) {
-          button.innerText = "Session Ready";
-
-          successBox.style.display = "block";
-          successBox.innerHTML = `
-            <strong>Payment session created successfully.</strong><br>
-            Order ID: ${data.orderId}<br>
-            Amount: ${data.amount} ${data.currency}<br>
-            Session ID: ${data.sessionId}
-          `;
-
-          alert("Payment session created successfully.");
-        } else {
-          button.disabled = false;
-          button.innerText = "Continue to Secure Payment";
-          alert("Payment session failed. Please try again.");
+        if (!data.success) {
+          throw new Error("Session failed");
         }
+
+        statusBox.style.display = "block";
+        statusBox.innerHTML = `
+          <strong>Secure session created successfully.</strong><br>
+          Order: ${data.orderId}<br>
+          Amount: ${data.amount} ${data.currency}<br>
+          Next step: connect card authentication and payment.
+        `;
+
+        button.innerText = "Session Ready";
 
       } catch (error) {
         console.error(error);
         button.disabled = false;
-        button.innerText = "Continue to Secure Payment";
-        alert("Something went wrong. Please try again.");
+        button.innerText = "Pay Securely";
+        alert("Payment session failed. Please try again.");
       }
     }
   </script>
