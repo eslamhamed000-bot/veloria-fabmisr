@@ -3,341 +3,255 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Veloria Secure Payment</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
   <style>
-    :root{
-      --pink:#f7c8d8;
-      --pink-strong:#ee9fbd;
-      --blue:#dcefff;
-      --blue-strong:#9fd2ff;
-      --ink:#202026;
-      --muted:#747781;
-      --white:rgba(255,255,255,.78);
-      --shadow:0 28px 80px rgba(145,195,235,.22);
+    * {
+      box-sizing: border-box;
     }
 
-    *{margin:0;padding:0;box-sizing:border-box}
-
-    body{
-      min-height:100vh;
-      font-family:"Inter",sans-serif;
-      color:var(--ink);
-      background:
-        radial-gradient(circle at 14% 10%, rgba(247,200,216,.75), transparent 31%),
-        radial-gradient(circle at 86% 14%, rgba(220,239,255,.95), transparent 35%),
-        linear-gradient(135deg,#fffafd,#f7fbff);
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f8dce9 0%, #e8f5ff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #222;
     }
 
-    .page{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:28px 14px;
-      position:relative;
-      overflow:hidden;
+    .page {
+      width: 100%;
+      max-width: 980px;
+      padding: 28px;
     }
 
-    .page::before{
-      content:"";
-      position:absolute;
-      width:460px;
-      height:460px;
-      border-radius:50%;
-      background:linear-gradient(135deg,rgba(247,200,216,.28),rgba(220,239,255,.45));
-      top:-160px;
-      right:-140px;
-      filter:blur(8px);
-      animation:softFloat 7s ease-in-out infinite alternate;
+    .card {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(18px);
+      border-radius: 32px;
+      box-shadow: 0 30px 80px rgba(80, 60, 80, 0.15);
+      padding: 42px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 36px;
+      border: 1px solid rgba(255,255,255,0.75);
     }
 
-    .page::after{
-      content:"";
-      position:absolute;
-      width:330px;
-      height:330px;
-      border-radius:50%;
-      background:linear-gradient(135deg,rgba(220,239,255,.55),rgba(247,200,216,.30));
-      left:-100px;
-      bottom:-110px;
-      filter:blur(10px);
-      animation:softFloat 8s ease-in-out infinite alternate-reverse;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 56px;
     }
 
-    @keyframes softFloat{
-      from{transform:translateY(0) scale(1)}
-      to{transform:translateY(18px) scale(1.05)}
+    .brand img {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.7);
+      padding: 6px;
     }
 
-    .shell{
-      width:100%;
-      max-width:860px;
-      position:relative;
-      z-index:2;
-      background:rgba(255,255,255,.64);
-      backdrop-filter:blur(24px);
-      border:1px solid rgba(255,255,255,.95);
-      border-radius:38px;
-      box-shadow:var(--shadow);
-      padding:30px;
-      display:grid;
-      grid-template-columns:1fr 360px;
-      gap:28px;
-      align-items:center;
-      animation:fadeUp .75s ease both;
+    .brand-text h3 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0.3px;
+      font-family: Georgia, serif;
     }
 
-    @keyframes fadeUp{
-      from{opacity:0;transform:translateY(16px)}
-      to{opacity:1;transform:translateY(0)}
+    .brand-text p {
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: #777;
     }
 
-    .brand-side{
-      text-align:center;
-      padding:10px 12px;
+    h1 {
+      margin: 0 0 14px;
+      font-size: 52px;
+      line-height: 1.04;
+      font-family: Georgia, serif;
+      font-weight: 600;
     }
 
-    .logo-cloud{
-      width:168px;
-      height:168px;
-      margin:0 auto 18px;
-      border-radius:50%;
-      background:
-        radial-gradient(circle at 35% 30%, rgba(255,255,255,.95), rgba(255,255,255,.58) 52%, rgba(220,239,255,.45)),
-        linear-gradient(135deg,rgba(247,200,216,.42),rgba(220,239,255,.58));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:0 22px 55px rgba(238,159,189,.18);
-      border:1px solid rgba(255,255,255,.95);
+    .pink {
+      color: #d98cab;
     }
 
-    .logo-cloud img{
-      width:138px;
-      height:138px;
-      object-fit:contain;
-      mix-blend-mode:multiply;
-      opacity:.96;
+    .blue {
+      color: #9ccbe7;
     }
 
-    h1{
-      font-family:"DM Serif Display",serif;
-      font-weight:400;
-      font-size:48px;
-      line-height:1.05;
-      letter-spacing:-.4px;
-      margin-bottom:12px;
+    .subtitle {
+      font-size: 17px;
+      line-height: 1.7;
+      color: #555;
+      max-width: 460px;
+      margin-bottom: 36px;
     }
 
-    h1 span{
-      background:linear-gradient(135deg,var(--pink-strong),var(--blue-strong));
-      -webkit-background-clip:text;
-      color:transparent;
+    .security-note {
+      display: inline-block;
+      background: rgba(217, 140, 171, 0.18);
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
     }
 
-    .sub{
-      max-width:390px;
-      margin:0 auto;
-      color:var(--muted);
-      font-size:14.5px;
-      line-height:1.75;
+    .summary {
+      background: rgba(255,255,255,0.72);
+      border-radius: 26px;
+      padding: 28px;
+      box-shadow: 0 18px 50px rgba(80, 60, 80, 0.12);
+      border: 1px solid rgba(255,255,255,0.8);
     }
 
-    .trust-strip{
-      margin:22px auto 0;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      background:rgba(255,255,255,.68);
-      border:1px solid rgba(255,255,255,.95);
-      padding:10px 14px;
-      border-radius:999px;
-      color:#4e535c;
-      font-size:12px;
-      font-weight:700;
+    .summary h2 {
+      margin: 0 0 24px;
+      font-size: 26px;
+      font-family: Georgia, serif;
     }
 
-    .pay-box{
-      background:rgba(255,255,255,.9);
-      border:1px solid rgba(255,255,255,1);
-      border-radius:30px;
-      padding:27px;
-      box-shadow:0 22px 60px rgba(0,0,0,.075);
-      position:relative;
-      overflow:hidden;
+    .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 13px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      font-size: 14px;
     }
 
-    .pay-box::before{
-      content:"";
-      position:absolute;
-      width:170px;
-      height:170px;
-      border-radius:50%;
-      background:linear-gradient(135deg,rgba(247,200,216,.34),rgba(220,239,255,.55));
-      top:-72px;
-      right:-70px;
+    .row span:first-child {
+      color: #777;
     }
 
-    .pay-content{
-      position:relative;
-      z-index:1;
+    .amount-box {
+      margin: 26px 0;
+      padding: 22px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(248,220,233,0.85), rgba(232,245,255,0.9));
+      text-align: center;
     }
 
-    .top{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:20px;
+    .amount-box small {
+      display: block;
+      color: #777;
+      margin-bottom: 6px;
     }
 
-    .secure{
-      background:#eefaf3;
-      color:#168449;
-      font-size:12px;
-      font-weight:800;
-      padding:8px 12px;
-      border-radius:999px;
+    .amount {
+      font-size: 42px;
+      font-weight: 800;
+      color: #c96f95;
     }
 
-    .lock{
-      width:38px;
-      height:38px;
-      border-radius:50%;
-      background:linear-gradient(135deg,var(--pink),var(--blue));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:0 10px 24px rgba(238,159,189,.18);
+    button {
+      width: 100%;
+      border: none;
+      background: #181818;
+      color: white;
+      padding: 18px 22px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.25s ease;
     }
 
-    h2{
-      font-family:"DM Serif Display",serif;
-      font-size:30px;
-      font-weight:400;
-      margin-bottom:18px;
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.18);
     }
 
-    .divider{
-      height:1px;
-      background:linear-gradient(90deg,var(--pink),var(--blue));
-      margin-bottom:18px;
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
-    .row{
-      display:flex;
-      justify-content:space-between;
-      gap:18px;
-      font-size:13.5px;
-      margin:13px 0;
+    .cards {
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.65);
+      font-weight: 800;
+      color: #222;
     }
 
-    .row span:first-child{color:var(--muted)}
-    .row span:last-child{font-weight:700;text-align:right}
-
-    .amount{
-      margin:23px 0 18px;
-      padding:20px;
-      border-radius:22px;
-      background:linear-gradient(135deg,rgba(247,200,216,.42),rgba(220,239,255,.62));
-      text-align:center;
+    .visa {
+      font-size: 27px;
+      color: #1a1f71;
+      font-weight: 900;
+      letter-spacing: -1px;
     }
 
-    .amount small{
-      display:block;
-      color:var(--muted);
-      margin-bottom:6px;
-      font-size:12px;
+    .mastercard {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      color: #333;
     }
 
-    .amount strong{
-      color:#e48baa;
-      font-size:34px;
-      font-weight:800;
-      letter-spacing:.2px;
+    .mc-circles {
+      display: flex;
+      margin-right: -5px;
     }
 
-    .btn{
-      width:100%;
-      border:none;
-      padding:17px;
-      border-radius:18px;
-      background:#202026;
-      color:white;
-      font-size:15px;
-      font-weight:800;
-      cursor:pointer;
-      box-shadow:0 18px 38px rgba(0,0,0,.18);
-      transition:.25s ease;
+    .circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-block;
     }
 
-    .btn:hover{
-      transform:translateY(-2px);
-      background:#303038;
+    .red {
+      background: #eb001b;
     }
 
-    .btn:disabled{
-      cursor:not-allowed;
-      opacity:.7;
-      transform:none;
+    .orange {
+      background: #f79e1b;
+      margin-left: -10px;
+      opacity: 0.92;
     }
 
-    .note{
-      text-align:center;
-      margin:14px 0 18px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.55;
+    .secure {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 13px;
+      color: #666;
     }
 
-    .logos{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:26px;
-      background:#fff;
-      border-radius:18px;
-      padding:16px;
-      border:1px solid #f1f1f1;
+    .success-box {
+      display: none;
+      margin-top: 18px;
+      padding: 14px;
+      background: rgba(156, 203, 231, 0.24);
+      border-radius: 14px;
+      font-size: 13px;
+      color: #333;
+      line-height: 1.6;
     }
 
-    .logos img{
-      object-fit:contain;
-      display:block;
-    }
-
-    .visa{height:34px}
-    .mastercard{height:38px}
-
-    .powered{
-      text-align:center;
-      margin-top:14px;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .powered b{color:var(--ink)}
-
-    @media(max-width:820px){
-      .shell{
-        grid-template-columns:1fr;
-        max-width:500px;
-        padding:24px;
+    @media (max-width: 800px) {
+      .card {
+        grid-template-columns: 1fr;
+        padding: 28px;
       }
 
-      h1{font-size:40px}
-      .logo-cloud{
-        width:142px;
-        height:142px;
+      h1 {
+        font-size: 40px;
       }
-      .logo-cloud img{
-        width:118px;
-        height:118px;
+
+      .brand {
+        margin-bottom: 32px;
       }
     }
   </style>
@@ -345,103 +259,120 @@
 
 <body>
   <main class="page">
-    <section class="shell">
+    <section class="card">
 
-      <div class="brand-side">
-        <div class="logo-cloud">
-          <img src="Untitled_design.svg" alt="Veloria Logo">
+      <div>
+        <div class="brand">
+          <img src="./Untitled_design.svg" alt="Veloria Logo" />
+          <div class="brand-text">
+            <h3>Veloria</h3>
+            <p>Make Up & Skin Care</p>
+          </div>
         </div>
 
         <h1>
-          Secure <span>Payment</span>
+          Secure <span class="pink">Payment</span><br />
+          with <span class="blue">FABMISR</span>
         </h1>
 
-        <p class="sub">
-          Complete your Veloria order safely through the official bank card payment gateway.
+        <p class="subtitle">
+          Complete your Veloria order safely through our secure bank payment system.
+          Your card details are protected and never stored by Veloria.
         </p>
 
-        <div class="trust-strip">
-          🔒 SSL Secure • Card details are not stored by Veloria
+        <div class="security-note">
+          🔒 SSL Secure · Bank protected payment session
         </div>
       </div>
 
-      <aside class="pay-box">
-        <div class="pay-content">
-          <div class="top">
-            <div class="secure">● Secure Session</div>
-            <div class="lock">🔒</div>
-          </div>
+      <div class="summary">
+        <h2>Order Summary</h2>
 
-          <h2>Order Summary</h2>
-          <div class="divider"></div>
+        <div class="row">
+          <span>Order</span>
+          <strong>#VL-2054</strong>
+        </div>
 
-          <div class="row">
-            <span>Order</span>
-            <span>#VL-2054</span>
-          </div>
+        <div class="row">
+          <span>Status</span>
+          <strong>Ready</strong>
+        </div>
 
-          <div class="row">
-            <span>Status</span>
-            <span>Ready</span>
-          </div>
+        <div class="amount-box">
+          <small>Total Amount</small>
+          <div class="amount">EGP 1,250</div>
+        </div>
 
-          <div class="amount">
-            <small>Total Amount</small>
-            <strong>EGP 1,250</strong>
-          </div>
+        <button id="payBtn" onclick="createPaymentSession()">
+          Continue to Secure Payment
+        </button>
 
-          <button class="btn" onclick="startPayment()">Pay Now</button>
+        <div class="cards">
+          <span class="visa">VISA</span>
 
-          <p class="note">
-            You’ll be redirected to FABMISR secure payment page.
-          </p>
-
-          <div class="logos">
-            <img class="visa" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
-            <img class="mastercard" src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
-          </div>
-
-          <div class="powered">
-            Secured by <b>FABMISR</b>
+          <div class="mastercard">
+            <span class="mc-circles">
+              <span class="circle red"></span>
+              <span class="circle orange"></span>
+            </span>
+            <strong>mastercard</strong>
           </div>
         </div>
-      </aside>
+
+        <div class="secure">
+          Secured by <strong>FABMISR</strong>
+        </div>
+
+        <div class="success-box" id="successBox"></div>
+      </div>
 
     </section>
   </main>
 
   <script>
-    async function startPayment() {
-      const button = document.querySelector(".btn");
-      button.innerText = "Redirecting...";
+    async function createPaymentSession() {
+      const button = document.getElementById("payBtn");
+      const successBox = document.getElementById("successBox");
+
       button.disabled = true;
+      button.innerText = "Creating secure session...";
+      successBox.style.display = "none";
 
       try {
         const response = await fetch("/api/create-payment", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            orderId: "VL-2054",
-            amount: 1250,
-            currency: "EGP"
-          })
+          }
         });
 
         const data = await response.json();
 
-        if (data.paymentUrl) {
-          window.location.href = data.paymentUrl;
+        console.log("Payment session response:", data);
+
+        if (data.success) {
+          button.innerText = "Session Ready";
+
+          successBox.style.display = "block";
+          successBox.innerHTML = `
+            <strong>Payment session created successfully.</strong><br>
+            Order ID: ${data.orderId}<br>
+            Amount: ${data.amount} ${data.currency}<br>
+            Session ID: ${data.sessionId}
+          `;
+
+          alert("Payment session created successfully.");
         } else {
-          alert("Payment link could not be created. Please try again.");
-          button.innerText = "Pay Now";
           button.disabled = false;
+          button.innerText = "Continue to Secure Payment";
+          alert("Payment session failed. Please try again.");
         }
+
       } catch (error) {
-        alert("Something went wrong. Please try again.");
-        button.innerText = "Pay Now";
+        console.error(error);
         button.disabled = false;
+        button.innerText = "Continue to Secure Payment";
+        alert("Something went wrong. Please try again.");
       }
     }
   </script>
