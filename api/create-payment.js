@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     const amount = req.body.amount;
     const orderId = req.body.orderId || `VELORIA-${Date.now()}`;
     const currency = "EGP";
-    const apiVersion = "61";
+    const apiVersion = "100";
 
     const createResponse = await fetch(
       `https://ap-gateway.mastercard.com/api/rest/version/${apiVersion}/merchant/${merchantId}/session`,
