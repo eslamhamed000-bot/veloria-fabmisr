@@ -1,71 +1,63 @@
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, error: "Method not allowed" });
+    return res.status(405).json({
+      success: false,
+      error: "Method not allowed"
+    });
   }
 
   try {
     const merchantId = process.env.FABMISR_MERCHANT_ID;
     const password = process.env.FABMISR_PASSWORD;
 
-    const orderId = `VL-${Date.now()}`;
-    const amount = "1250.00";
-    const currency = "EGP";
+    if (!merchantId || !password) {
+      return res.status(500).json({
+        success: false,
+        error: "Missing FABMISR credentials"
+      });
+    }
 
-    const params = new URLSearchParams();
-
-    params.append("apiOperation", "CREATE_CHECKOUT_SESSION");
-    params.append("apiUsername", `merchant.${merchantId}`);
-    params.append("apiPassword", password);
-    params.append("merchant", merchantId);
-
-    params.append("interaction.operation", "PURCHASE");
-
-    params.append("order.id", orderId);
-    params.append("order.amount", amount);
-    params.append("order.currency", currency);
+    const auth = Buffer
+      .from(`merchant.${merchantId}:${password}`)
+      .toString("base64");
 
     const response = await fetch(
-      "https://ap-gateway.mastercard.com/api/nvp/version/100",
+      `https://ap-gateway.mastercard.com/api/rest/version/61/merchant/${merchantId}/session`,
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "application/json",
+          "Authorization": `Basic ${auth}`
         },
-        body: params.toString()
+        body: JSON.stringify({
+          session: {
+            authenticationLimit: 25
+          }
+        })
       }
     );
 
-    const text = await response.text();
+    const data = await response.json();
 
-    const data = {};
-    text.split("&").forEach((part) => {
-      const [key, value] = part.split("=");
-      if (key) data[decodeURIComponent(key)] = decodeURIComponent(value || "");
-    });
+    console.log("CREATE SESSION RESPONSE:", JSON.stringify(data, null, 2));
 
-    console.log("FABMISR NVP RESPONSE:", data);
-
-    if (data.result !== "SUCCESS") {
+    if (!response.ok || data.result === "ERROR") {
       return res.status(500).json({
         success: false,
-        error: data["error.explanation"] || "FABMISR rejected request",
         details: data
       });
     }
 
-    const sessionId = data["session.id"];
-
     return res.status(200).json({
       success: true,
-      orderId,
-      amount,
-      currency,
-      merchantId,
-      sessionId,
-      paymentUrl: `https://ap-gateway.mastercard.com/checkout/pay/${sessionId}`
+      sessionId: data.session.id,
+      apiVersion: "61",
+      merchantId
     });
 
   } catch (error) {
+    console.log("SERVER ERROR:", error);
+
     return res.status(500).json({
       success: false,
       error: error.message
