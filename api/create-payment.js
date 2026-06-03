@@ -48,12 +48,10 @@ export default async function handler(req, res) {
       });
     }
 
-    return res.status(200).json({
-      success: true,
-      sessionId: data.session.id,
-      apiVersion: "61",
-      merchantId
-    });
+return res.status(200).json({
+  success: true,
+  fullResponse: data
+});
 
   } catch (error) {
     console.log("SERVER ERROR:", error);
