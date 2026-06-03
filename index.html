@@ -236,14 +236,7 @@
           return;
         }
 
-    Checkout.configure({
-  session: {
-    id: data.sessionId
-  },
-  interaction: {
-    operation: "PURCHASE"
-  }
-});
+    
 
         checkoutReady = true;
 
@@ -264,7 +257,7 @@ document.getElementById("status").innerHTML =
       if (!checkoutReady) return;
 
       try {
-        Checkout.showPaymentPage();
+        
       } catch (error) {
         console.error(error);
         document.getElementById("status").innerHTML =
