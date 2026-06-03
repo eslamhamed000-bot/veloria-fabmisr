@@ -5,368 +5,265 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Veloria Secure Payment</title>
 
-  <script src="https://ap-gateway.mastercard.com/static/checkout/checkout.min.js"
-    data-error="https://project-rqpjs.vercel.app/payment-failed"
-    data-cancel="https://project-rqpjs.vercel.app/payment-cancelled"
-    data-complete="https://project-rqpjs.vercel.app/payment-success">
-  </script>
+  <script src="https://ap-gateway.mastercard.com/static/checkout/checkout.min.js"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, #ffe0ee, transparent 35%),
+        radial-gradient(circle at 85% 90%, #d9f2ff, transparent 40%),
+        linear-gradient(135deg, #fff9fc, #eef9ff);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 22px;
-      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background:
-        radial-gradient(circle at 12% 15%, rgba(255, 211, 230, 0.75), transparent 34%),
-        radial-gradient(circle at 88% 84%, rgba(188, 231, 255, 0.85), transparent 38%),
-        linear-gradient(135deg, #fff8fb, #edf8ff);
-      color: #151515;
+      padding: 18px;
+      color: #171717;
     }
 
     .card {
       width: 100%;
-      max-width: 520px;
-      min-height: 620px;
-      background: rgba(255,255,255,0.78);
-      backdrop-filter: blur(24px);
-      border: 1px solid rgba(255,255,255,0.92);
-      border-radius: 36px;
-      box-shadow: 0 28px 90px rgba(65, 60, 80, 0.14);
-      padding: 46px 34px;
+      max-width: 460px;
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: 34px;
+      box-shadow: 0 28px 80px rgba(70,60,80,.14);
+      padding: 42px 28px;
       text-align: center;
+      backdrop-filter: blur(22px);
     }
 
-    .logo-box {
-      width: 124px;
-      height: 124px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(255,235,244,0.95), rgba(232,247,255,0.95));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.9), 0 18px 40px rgba(217,140,173,0.12);
-    }
-
-    .logo-box img {
-      width: 92px;
-      height: 92px;
-      object-fit: contain;
-      mix-blend-mode: multiply;
-      opacity: 0.92;
-    }
-
-    .brand-name {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 34px;
-      font-weight: 600;
-      letter-spacing: -0.5px;
-      margin-bottom: 4px;
-    }
-
-    .brand-sub {
-      font-size: 13px;
-      color: #777;
-      letter-spacing: 0.5px;
-      margin-bottom: 34px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.78);
-      padding: 10px 16px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #444;
-      margin-bottom: 26px;
-    }
-
-    h1 {
-      margin: 0 0 18px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 46px;
-      line-height: 1.08;
-      font-weight: 600;
-      letter-spacing: -1px;
-    }
-
-    .pink {
-      color: #d98cab;
-    }
-
-    .desc {
-      font-size: 16px;
-      line-height: 1.8;
-      color: #555;
-      margin: 0 auto 34px;
-      max-width: 390px;
-    }
-
-    .loader-wrap {
-      width: 84px;
-      height: 84px;
-      position: relative;
-      margin: 0 auto 28px;
-    }
-
-    .loader {
-      width: 84px;
-      height: 84px;
-      border-radius: 50%;
-      border: 4px solid rgba(217,140,173,0.17);
-      border-top-color: #d98cab;
-      animation: spin 1s linear infinite;
-    }
-
-    .loader-inner {
-      position: absolute;
-      inset: 15px;
+    .logo {
+      width: 118px;
+      height: 118px;
+      margin: 0 auto 16px;
       border-radius: 50%;
       background: linear-gradient(135deg, #fff1f7, #eaf8ff);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+    }
+
+    .logo img {
+      width: 88px;
+      height: 88px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+    }
+
+    .brand {
+      font-family: Georgia, serif;
+      font-size: 34px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .sub {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 30px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: white;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: Georgia, serif;
+      font-size: 42px;
+      line-height: 1.1;
+      margin: 0 0 16px;
+    }
+
+    .pink { color: #d98cab; }
+
+    p {
+      color: #555;
+      line-height: 1.7;
+      font-size: 15px;
+      margin-bottom: 28px;
+    }
+
+    .loader {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 4px solid rgba(217,140,173,.18);
+      border-top-color: #d98cab;
+      animation: spin .9s linear infinite;
+      margin: 0 auto 24px;
     }
 
     @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
+      to { transform: rotate(360deg); }
     }
 
-    .status {
-      min-height: 54px;
-      font-size: 15px;
-      line-height: 1.7;
+    #status {
+      font-size: 14px;
       color: #444;
-      margin-bottom: 30px;
+      line-height: 1.7;
+      min-height: 48px;
+      margin-bottom: 24px;
+    }
+
+    button {
+      display: none;
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      background: #151515;
+      color: white;
+      padding: 17px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      margin-bottom: 22px;
     }
 
     .cards {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 22px;
-      margin-bottom: 24px;
+      gap: 20px;
+      margin-bottom: 18px;
     }
 
     .visa {
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 900;
       font-style: italic;
-      letter-spacing: -1.7px;
       color: #1a1f71;
     }
 
     .mc {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       font-size: 13px;
       font-weight: 800;
-      color: #222;
     }
 
-    .mc-mark {
+    .mc span {
       display: flex;
-      align-items: center;
     }
 
-    .mc-red,
-    .mc-orange {
-      width: 31px;
-      height: 31px;
+    .r, .o {
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       display: block;
     }
 
-    .mc-red {
-      background: #eb001b;
-    }
-
-    .mc-orange {
-      background: #f79e1b;
-      margin-left: -11px;
-      opacity: 0.92;
-    }
+    .r { background: #eb001b; }
+    .o { background: #f79e1b; margin-left: -11px; opacity: .92; }
 
     .footer {
       font-size: 12px;
       color: #777;
-      line-height: 1.7;
-    }
-
-    .manual-btn {
-      display: none;
-      margin-top: 18px;
-      width: 100%;
-      border: none;
-      background: #151515;
-      color: white;
-      padding: 16px;
-      border-radius: 18px;
-      font-weight: 800;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 14px;
-      }
-
-      .card {
-        border-radius: 28px;
-        padding: 36px 24px;
-        min-height: auto;
-      }
-
-      h1 {
-        font-size: 38px;
-      }
-
-      .logo-box {
-        width: 108px;
-        height: 108px;
-      }
-
-      .logo-box img {
-        width: 80px;
-        height: 80px;
-      }
+      line-height: 1.6;
     }
   </style>
 </head>
 
 <body>
   <main class="card">
-    <div class="logo-box">
+    <div class="logo">
       <img src="./Untitled_design.svg" alt="Veloria Logo">
     </div>
 
-    <div class="brand-name">Veloria</div>
-    <div class="brand-sub">Make Up & Skin Care</div>
+    <div class="brand">Veloria</div>
+    <div class="sub">Make Up & Skin Care</div>
 
-    <div class="badge">🔒 SSL Secure Payment</div>
+    <div class="badge">🔒 Secure Bank Payment</div>
 
-    <h1>
-      Securing Your<br>
-      <span class="pink">Payment</span>
-    </h1>
+    <h1>Securing Your<br><span class="pink">Payment</span></h1>
 
-    <p class="desc">
-      Please wait while we securely connect your order to the official bank payment gateway.
-    </p>
+    <p>Please wait while we connect your order to the official FABMISR payment gateway.</p>
 
-    <div class="loader-wrap">
-      <div class="loader"></div>
-      <div class="loader-inner">💳</div>
-    </div>
+    <div class="loader" id="loader"></div>
 
-    <div class="status" id="status">
-      Creating secure payment session...
-    </div>
+    <div id="status">Creating secure payment session...</div>
 
-    <button class="manual-btn" id="manualBtn" onclick="openBankCheckout()">
-      Continue to Bank Payment
-    </button>
+    <button id="payBtn" onclick="openCheckout()">Continue to Bank Payment</button>
 
     <div class="cards">
       <div class="visa">VISA</div>
       <div class="mc">
-        <span class="mc-mark">
-          <span class="mc-red"></span>
-          <span class="mc-orange"></span>
-        </span>
+        <span><i class="r"></i><i class="o"></i></span>
         mastercard
       </div>
     </div>
 
     <div class="footer">
       Secured by FABMISR · OTP Verification Enabled<br>
-      Card details are processed through the banking gateway.
+      Card details are processed by the banking gateway.
     </div>
   </main>
 
   <script>
-    let paymentData = null;
+    let checkoutReady = false;
 
-    async function startPayment() {
+    async function initPayment() {
       const status = document.getElementById("status");
-      const manualBtn = document.getElementById("manualBtn");
+      const payBtn = document.getElementById("payBtn");
 
       try {
-        status.innerHTML = "Creating encrypted payment session...";
-
         const response = await fetch("/api/create-payment", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          }
+          headers: { "Content-Type": "application/json" }
         });
 
         const data = await response.json();
-        console.log("Payment session:", data);
+        console.log("PAYMENT DATA:", data);
 
         if (!data.success || !data.sessionId) {
           status.innerHTML = "Payment session failed.<br>Please refresh and try again.";
           return;
         }
 
-        paymentData = data;
-
-        status.innerHTML = "Secure session established.<br>Opening bank payment page...";
-
         Checkout.configure({
           session: {
             id: data.sessionId
-          },
-          interaction: {
-            merchant: {
-              name: "Veloria Make Up & Skin Care"
-            },
-            operation: "PURCHASE"
           }
         });
 
-        setTimeout(function () {
-          openBankCheckout();
-        }, 1200);
+        checkoutReady = true;
 
-        setTimeout(function () {
-          manualBtn.style.display = "block";
-          status.innerHTML = "If the bank page did not open automatically,<br>please continue securely.";
-        }, 4500);
+        status.innerHTML = "Secure session ready.<br>Opening bank payment page...";
+        payBtn.style.display = "block";
+
+        setTimeout(openCheckout, 700);
 
       } catch (error) {
         console.error(error);
-        status.innerHTML = "Something went wrong.<br>Please refresh the page.";
+        status.innerHTML = "Something went wrong.<br>Please refresh and try again.";
       }
     }
 
-    function openBankCheckout() {
+    function openCheckout() {
+      if (!checkoutReady) return;
+
       try {
         Checkout.showPaymentPage();
       } catch (error) {
         console.error(error);
         document.getElementById("status").innerHTML =
-          "Unable to open bank payment page.<br>Please refresh and try again.";
+          "Bank page could not open automatically.<br>Please press the secure button below.";
+        document.getElementById("payBtn").style.display = "block";
       }
     }
 
-    startPayment();
+    initPayment();
   </script>
 </body>
 </html>
