@@ -165,10 +165,13 @@ document.getElementById("status").innerHTML =
 
     if (data.gatewayRecommendation === "PROCEED") {
 
+
       authenticationReady = true;
 
-      document.getElementById("status").innerHTML =
-        "3DS Ready - Click Pay Now";
+document.getElementById("status").innerHTML =
+  "Starting 3DS Authentication...";
+
+openCheckout();
 
     } else {
 
