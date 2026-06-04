@@ -46,7 +46,7 @@ const url =
 
     const response = await fetch(url, {
 
-      method: "POST",
+      method: "PUT",
 
       headers: {
 
