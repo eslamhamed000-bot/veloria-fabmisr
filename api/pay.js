@@ -4,8 +4,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { sessionId, orderId, amount } = req.body;
-
+   
     const merchantId = process.env.FABMISR_MERCHANT_ID;
     const password = process.env.FABMISR_PASSWORD;
 
