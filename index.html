@@ -105,7 +105,7 @@ async function initPayment() {
       return;
     }
 
-PaymentSession.configure({});
+PaymentSession.configure({
   session: data.sessionId,
 
   frameEmbeddingMitigation: ["javascript"],
@@ -200,12 +200,34 @@ function openCheckout() {
   }
 
   ThreeDS.authenticatePayer(
-    sessionData.orderId,
-    transactionId,
+  sessionData.orderId,
+  transactionId,
 
-    async function(data) {}
+  async function(data) {
 
       console.log("AUTH RESULT:", data);
+
+      if (data.gatewayRecommendation === "PROCEED") {
+
+        const payResponse = await fetch("/api/pay", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            sessionId: sessionData.sessionId,
+            orderId: sessionData.orderId,
+            amount: sessionData.amount,
+            transactionId: transactionId
+          })
+        });
+
+        const payData = await payResponse.json();
+
+        console.log("FINAL PAY:", payData);
+      }
+  }
+);
 
       if (data.gatewayRecommendation === "PROCEED") {
 
