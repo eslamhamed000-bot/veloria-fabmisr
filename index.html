@@ -63,17 +63,11 @@
 
   <div id="status">Loading...</div>
 
-<div id="payment-form">
-
-  <div id="card-number"></div>
-
-  <div style="display:flex; gap:10px; margin-top:10px;">
-    <div id="expiry-month" style="flex:1;"></div>
-    <div id="expiry-year" style="flex:1;"></div>
-  </div>
-
-  <div id="security-code" style="margin-top:10px;"></div>
-
+<div id="payment-form" style="display:none;">
+  <input id="card-number" placeholder="Card Number" readonly />
+  <input id="expiry-month" placeholder="MM" readonly />
+  <input id="expiry-year" placeholder="YY" readonly />
+  <input id="security-code" placeholder="CVV" readonly />
 </div>
 
   <button id="payBtn" onclick="openCheckout()">Pay Now</button>
