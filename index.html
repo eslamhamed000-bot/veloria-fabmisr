@@ -78,6 +78,7 @@
 let checkoutReady = false;
 let sessionData = null;
 let transactionId = "TXN-" + Date.now();
+let authenticationReady = false;
 async function initPayment() {
 
   const status = document.getElementById("status");
@@ -149,23 +150,31 @@ callbacks: {
             return;
           }
 
-          // 🔥 PAY STEP
-          const payResponse = await fetch("/api/pay", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              sessionId: response.session.id,
-              orderId: response.order.id,
-              amount: response.order.amount
-            })
-          });
+          // 🔥 PAY STEP 
+          ThreeDS.initiateAuthentication(
+  sessionData.orderId,
+  transactionId,
 
-          const payData = await payResponse.json();
+  function(data) {
 
-          console.log("PAY RESULT:", payData);
-        }
-      }
-    });
+    console.log("INIT AUTH:", data);
+
+    if (data.gatewayRecommendation === "PROCEED") {
+
+      authenticationReady = true;
+
+      document.getElementById("status").innerHTML =
+        "3DS Ready - Click Pay Now";
+
+    } else {
+
+      document.getElementById("status").innerHTML =
+        "Card not eligible for 3DS";
+
+    }
+
+  }
+);
 
     checkoutReady = true;
 
@@ -182,10 +191,40 @@ callbacks: {
 
 function openCheckout() {
 
-  if (!checkoutReady) return;
+  if (!authenticationReady) {
+    alert("3DS not ready yet");
+    return;
+  }
 
-  PaymentSession.updateSessionFromForm('card');
+  ThreeDS.authenticatePayer(
+    sessionData.orderId,
+    transactionId,
 
+    async function(data) {
+
+      console.log("AUTH RESULT:", data);
+
+      if (data.gatewayRecommendation === "PROCEED") {
+
+        const payResponse = await fetch("/api/pay", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            sessionId: sessionData.sessionId,
+            orderId: sessionData.orderId,
+            amount: sessionData.amount,
+            transactionId: transactionId
+          })
+        });
+
+        const payData = await payResponse.json();
+
+        console.log("FINAL PAY:", payData);
+      }
+    }
+  );
 }
 
 initPayment();
