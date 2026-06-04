@@ -9,7 +9,12 @@ export default async function handler(req, res) {
     const merchantId = process.env.FABMISR_MERCHANT_ID;
     const password = process.env.FABMISR_PASSWORD;
 
-    const transactionId = "1";
+    const {
+   sessionId,
+   orderId,
+   amount,
+   transactionId
+  } = req.body;
 
     const url = `https://fabmisr.gateway.mastercard.com/api/rest/version/100/merchant/${merchantId}/order/${orderId}/transaction/${transactionId}`;
 
@@ -21,16 +26,21 @@ export default async function handler(req, res) {
         "Content-Type": "application/json",
         "Authorization": `Basic ${auth}`
       },
-      body: JSON.stringify({
-        apiOperation: "PAY",
-        order: {
-          amount: amount,
-          currency: "EGP"
-        },
-        session: {
-          id: sessionId
-        }
-      })
+body: JSON.stringify({
+  apiOperation: "PAY",
+
+  authentication: {
+    transactionId: transactionId
+  },
+
+  session: {
+    id: sessionId
+  },
+
+  transaction: {
+    reference: orderId
+  }
+})
     });
 
     const data = await response.json();
