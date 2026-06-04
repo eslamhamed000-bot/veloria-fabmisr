@@ -34,8 +34,10 @@ export default async function handler(req, res) {
 
 
 
-    const url = `https://fabmisr.gateway.mastercard.com/api/rest/version/100/merchant/${merchantId}/order/${orderId}/transaction`;
+const transactionId = "1";
 
+const url =
+  `https://fabmisr.gateway.mastercard.com/api/rest/version/100/merchant/${merchantId}/order/${orderId}/transaction/${transactionId}`;
 
 
     const auth = Buffer.from(`merchant.${merchantId}:${password}`).toString("base64");
