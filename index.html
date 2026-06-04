@@ -119,11 +119,26 @@ async function initPayment() {
         }
       },
 
-      callbacks: {
+callbacks: {
+  initialized: function(response) {
 
-        initialized: function(res) {
-          console.log("SESSION INIT:", res);
-        },
+    console.log("SESSION INITIALIZED", response);
+
+    ThreeDS.configure({
+      merchantId: sessionData.merchantId,
+      sessionId: sessionData.sessionId,
+      containerId: "3DSUI",
+      callback: function () {
+
+        console.log("3DS CONFIGURED");
+
+      },
+      configuration: {
+        wsVersion: 100
+      }
+    });
+
+  },
 
         formSessionUpdate: async function(response) {
 
@@ -175,6 +190,6 @@ function openCheckout() {
 
 initPayment();
 </script>
-
+<div id="3DSUI"></div>
 </body>
 </html>
