@@ -57,24 +57,21 @@ const url =
       },
 
       body: JSON.stringify({
+  apiOperation: "PAY",
 
-        apiOperation: "PAY",
+  order: {
+    amount: amount,
+    currency: "EGP"
+  },
 
-        session: {
+  transaction: {
+    reference: orderId
+  },
 
-          id: sessionId
-
-        },
-
-        order: {
-
-          amount: amount,
-
-          currency: "EGP"
-
-        }
-
-      })
+  session: {
+    id: sessionId
+  }
+})
 
     });
 
