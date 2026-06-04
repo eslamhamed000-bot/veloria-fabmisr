@@ -82,7 +82,10 @@ const url =
 
     const data = await response.json();
 
-
+    console.log(
+  "FAB RESPONSE:",
+  JSON.stringify(data, null, 2)
+);
 
     return res.status(200).json({
 
