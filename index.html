@@ -6,6 +6,7 @@
   <title>Veloria Secure Payment</title>
 
 <script src="https://fabmisr.gateway.mastercard.com/form/version/100/merchant/770845130101/session.js"></script>
+ <script src="https://fabmisr.gateway.mastercard.com/static/threeDS/1.3.0/three-ds.min.js"></script>
   <style>
     * { box-sizing: border-box; }
 
@@ -276,21 +277,7 @@
     return;
   }
 
-  const payResponse = await fetch("/api/pay", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      sessionId: response.session.id,
-      orderId: response.order.id,
-      amount: response.order.amount
-    })
-  });
 
-  const payData = await payResponse.json();
-
-  console.log("PAY RESULT", payData);
 
     }
   }
