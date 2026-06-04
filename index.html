@@ -121,9 +121,14 @@ PaymentSession.configure({
 
   callbacks: {
   initialized: function(response) {
-
+ 
     console.log("SESSION INITIALIZED", response);
+    document.getElementById("payment-form").style.display = "block";
 
+document.getElementById("payBtn").style.display = "block";
+
+document.getElementById("status").innerHTML =
+  "Enter card details then click Pay Now";
     ThreeDS.configure({
       merchantId: sessionData.merchantId,
       sessionId: sessionData.sessionId,
