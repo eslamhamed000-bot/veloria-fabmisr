@@ -76,7 +76,8 @@
 
 <script>
 let checkoutReady = false;
-
+let sessionData = null;
+let transactionId = "TXN-" + Date.now();
 async function initPayment() {
 
   const status = document.getElementById("status");
@@ -93,6 +94,8 @@ async function initPayment() {
     });
 
     const data = await response.json();
+
+    sessionData = data;
 
     console.log("SESSION DATA:", data);
 
