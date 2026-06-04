@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -149,7 +149,7 @@ PaymentSession.configure({
             return;
           }
 
-          // 🔥 PAY STEP 
+           
           ThreeDS.initiateAuthentication(
   sessionData.orderId,
   transactionId,
@@ -199,37 +199,36 @@ function openCheckout() {
     return;
   }
 
-ThreeDS.authenticatePayer(
-  sessionData.orderId,
-  transactionId,
+  ThreeDS.authenticatePayer ); }
+    sessionData.orderId,
+    transactionId,
 
-  async function(data) {
+    async function(data) {
 
-    console.log("AUTH RESULT:", data);
+      console.log("AUTH RESULT:", data);
 
-    if (data.gatewayRecommendation === "PROCEED") {
+      if (data.gatewayRecommendation === "PROCEED") {
 
-      const payResponse = await fetch("/api/pay", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          sessionId: sessionData.sessionId,
-          orderId: sessionData.orderId,
-          amount: sessionData.amount,
-          transactionId: transactionId
-        })
-      });
+        const payResponse = await fetch("/api/pay", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            sessionId: sessionData.sessionId,
+            orderId: sessionData.orderId,
+            amount: sessionData.amount,
+            transactionId: transactionId
+          })
+        });
 
-      const payData = await payResponse.json();
+        const payData = await payResponse.json();
 
-      console.log("FINAL PAY:", payData);
+        console.log("FINAL PAY:", payData);
+      }
     }
-  }
-);
-
-
+  );
+}  
 
 initPayment();
 </script>
