@@ -70,7 +70,7 @@
   <input id="security-code" placeholder="CVV" readonly />
 </div>
 
-  <button id="payBtn" onclick="openCheckout()">Pay Now</button>
+  <button id="payBtn" onclick="submitCard()">Pay Now</button>
 
 </div>
 
@@ -190,6 +190,14 @@ PaymentSession.configure({
     console.error(e);
     status.innerHTML = "Error loading session";
   }
+}
+
+function submitCard() {
+
+  document.getElementById("status").innerHTML =
+    "Sending card details...";
+
+  PaymentSession.updateSessionFromForm("card");
 }
 
 function openCheckout() {
