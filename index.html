@@ -268,11 +268,31 @@
       console.log("SESSION INITIALIZED", response);
     },
 
-    formSessionUpdate: function(response) {
-      console.log("SESSION UPDATED", response);
-    }
+    formSessionUpdate: async function(response) {
+
+  console.log("SESSION UPDATED", response);
+
+  if (response.status !== "ok") {
+    return;
   }
-});
+
+  const payResponse = await fetch("/api/pay", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      sessionId: response.session.id,
+      orderId: response.order.id,
+      amount: response.order.amount
+    })
+  });
+
+  const payData = await payResponse.json();
+
+  console.log("PAY RESULT", payData);
+
+}
   
         checkoutReady = true;
 
