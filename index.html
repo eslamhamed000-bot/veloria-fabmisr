@@ -290,17 +290,19 @@ document.getElementById("status").innerHTML =
     }
 
     function openCheckout() {
-      if (!checkoutReady) return;
+  if (!checkoutReady) return;
 
-      try {
-        
-      } catch (error) {
-        console.error(error);
-        document.getElementById("status").innerHTML =
-          "Bank page could not open automatically.<br>Please press the secure button below.";
-        document.getElementById("payBtn").style.display = "block";
-      }
-    }
+  try {
+
+    PaymentSession.updateSessionFromForm('card');
+
+  } catch (error) {
+    console.error(error);
+    document.getElementById("status").innerHTML =
+      "Bank page could not open automatically.<br>Please press the secure button below.";
+    document.getElementById("payBtn").style.display = "block";
+  }
+}
 
     initPayment();
   </script>
