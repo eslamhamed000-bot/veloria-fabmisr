@@ -249,7 +249,28 @@
           return;
         }
 
-    
+        PaymentSession.configure({
+  session: data.sessionId,
+
+  fields: {
+    card: {
+      number: "#card-number",
+      securityCode: "#security-code",
+      expiryMonth: "#expiry-month",
+      expiryYear: "#expiry-year"
+    }
+  },
+
+  callbacks: {
+    initialized: function(response) {
+      console.log("SESSION INITIALIZED", response);
+    },
+
+    formSessionUpdate: function(response) {
+      console.log("SESSION UPDATED", response);
+    }
+  }
+});
 
         checkoutReady = true;
 
