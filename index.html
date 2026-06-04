@@ -105,22 +105,21 @@ async function initPayment() {
       return;
     }
 
-    PaymentSession.configure({
+PaymentSession.configure({});
+  session: data.sessionId,
 
-      session: data.sessionId,
+  frameEmbeddingMitigation: ["javascript"],
 
-      frameEmbeddingMitigation: ["javascript"],
+  fields: {
+    card: {
+      number: "#card-number",
+      expiryMonth: "#expiry-month",
+      expiryYear: "#expiry-year",
+      securityCode: "#security-code"
+    }
+  },
 
-      fields: {
-        card: {
-          number: "#card-number",
-          expiryMonth: "#expiry-month",
-          expiryYear: "#expiry-year",
-          securityCode: "#security-code"
-        }
-      },
-
-callbacks: {
+  callbacks: {
   initialized: function(response) {
 
     console.log("SESSION INITIALIZED", response);
@@ -182,6 +181,10 @@ callbacks: {
 
     document.getElementById("payment-form").style.display = "block";
     document.getElementById("payBtn").style.display = "block";
+               
+        }
+      }
+    });
 
   } catch (e) {
     console.error(e);
@@ -200,7 +203,7 @@ function openCheckout() {
     sessionData.orderId,
     transactionId,
 
-    async function(data) {
+    async function(data) {}
 
       console.log("AUTH RESULT:", data);
 
