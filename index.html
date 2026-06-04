@@ -252,6 +252,8 @@
         PaymentSession.configure({
   session: data.sessionId,
 
+  frameEmbeddingMitigation: ["javascript"],
+
   fields: {
     card: {
       number: "#card-number",
@@ -261,6 +263,16 @@
     }
   },
 
+  callbacks: {
+    initialized: function(response) {
+      console.log("SESSION INITIALIZED", response);
+    },
+
+    formSessionUpdate: function(response) {
+      console.log("SESSION UPDATED", response);
+    }
+  }
+});
   callbacks: {
     initialized: function(response) {
       console.log("SESSION INITIALIZED", response);
