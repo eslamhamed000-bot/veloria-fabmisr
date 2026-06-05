@@ -221,7 +221,12 @@ function openCheckout() {
     async function(data) {
 
       console.log("AUTH RESULT:", data);
+      if (data.htmlRedirectCode) {
 
+  document.getElementById("3DSUI").innerHTML =
+    data.htmlRedirectCode;
+
+}
       if (data.gatewayRecommendation === "PROCEED") {
 
         const payResponse = await fetch("/api/pay", {
