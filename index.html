@@ -75,10 +75,11 @@
 </div>
 
 <script>
-let checkoutReady = false;
+
 let sessionData = null;
 let transactionId = "TXN-" + Date.now();
 let authenticationReady = false;
+let authenticationTransactionId = null;
 async function initPayment() {
  console.log("INIT PAYMENT STARTED");
   const status = document.getElementById("status");
@@ -183,10 +184,6 @@ openCheckout();
   }
 );
 
-    checkoutReady = true;
-
-    status.innerHTML = "Ready. Click Pay Now";
-
    
                
         }
@@ -200,7 +197,7 @@ openCheckout();
 }
 
 function submitCard() {
-
+document.getElementById("payBtn").disabled = true;
   document.getElementById("status").innerHTML =
     "Sending card details...";
 
@@ -221,7 +218,19 @@ function openCheckout() {
     async function(data) {
 
       console.log("AUTH RESULT:", data);
+if (
+  data.restApiResponse &&
+  data.restApiResponse.authentication &&
+  data.restApiResponse.authentication.transactionId
+) {
+  authenticationTransactionId =
+    data.restApiResponse.authentication.transactionId;
 
+  console.log(
+    "AUTH TXN ID:",
+    authenticationTransactionId
+  );
+}
       if (data.htmlRedirectCode) {
 
   const container =
@@ -230,12 +239,7 @@ function openCheckout() {
   container.innerHTML =
     data.htmlRedirectCode;
 
-  const form =
-    container.querySelector("form");
-
-  if (form) {
-    form.submit();
-  }
+ 
 
   return;
 }
@@ -251,11 +255,12 @@ function openCheckout() {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            sessionId: sessionData.sessionId,
-            orderId: sessionData.orderId,
-            amount: sessionData.amount,
-            transactionId: transactionId
-          })
+  sessionId: sessionData.sessionId,
+  orderId: sessionData.orderId,
+  amount: sessionData.amount,
+  authenticationTransactionId:
+    authenticationTransactionId
+})
         });
 
         const payData = await payResponse.json();
