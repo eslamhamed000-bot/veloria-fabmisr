@@ -71,6 +71,7 @@
 </div>
 
   <button id="payBtn" onclick="submitCard()">Pay Now</button>
+ <div id="3DSUI"></div>
 
 </div>
 
@@ -238,9 +239,13 @@ console.log(
       "threedsChallengeRedirectForm"
     );
 
-if (form) {
-  form.submit();
-}
+setTimeout(() => {
+
+  if (form) {
+    form.submit();
+  }
+
+}, 300);
 
 const authInterval = setInterval(async () => {
 
@@ -299,7 +304,39 @@ const authInterval = setInterval(async () => {
     console.log(
       "FINAL PAY:",
       payData
-    );
+ 
+  );
+  if (
+  payData?.result?.result === "SUCCESS"
+) {
+
+  showSuccess(payData);
+
+} else {
+
+  const gatewayCode =
+payData?.result?.response?.gatewayCode;
+
+let reason = "Payment Declined";
+
+if (gatewayCode === "INSUFFICIENT_FUNDS") {
+  reason = "Your card has insufficient funds";
+}
+
+if (gatewayCode === "DECLINED") {
+  reason = "The bank declined the transaction";
+}
+
+if (gatewayCode === "EXPIRED_CARD") {
+  reason = "Card has expired";
+}
+
+if (gatewayCode === "TIMED_OUT") {
+  reason = "Authentication timed out";
+}
+
+  showFailure(reason);
+}
   }
 
 }, 3000);
@@ -336,9 +373,54 @@ return;
   );
 
 }  
+function showSuccess(payData) {
 
+  document.getElementById("3DSUI").style.display = "none";
+
+  document.getElementById("payment-form").style.display = "none";
+
+  document.getElementById("payBtn").style.display = "none";
+
+  const result =
+    document.getElementById("paymentResult");
+
+  result.style.display = "block";
+
+  result.innerHTML = `
+    <h2>✅ Payment Successful</h2>
+    <p>Your payment was approved.</p>
+  `;
+}
+
+function showFailure(message) {
+
+  document.getElementById("3DSUI").style.display = "none";
+
+  document.getElementById("payment-form").style.display = "none";
+
+  document.getElementById("payBtn").style.display = "none";
+
+  const result =
+    document.getElementById("paymentResult");
+
+  result.style.display = "block";
+
+  result.innerHTML = `
+    <h2>❌ Payment Failed</h2>
+    <p>${message}</p>
+  `;
+}
 initPayment();
 </script>
 <div id="3DSUI"></div>
-</body>
+
+<div id="paymentResult" style="
+display:none;
+margin-top:20px;
+padding:20px;
+border-radius:16px;
+background:white;
+text-align:center;
+font-weight:600;
+"></div></body>
 </html>
