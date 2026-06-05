@@ -221,36 +221,21 @@ function openCheckout() {
     async function(data) {
 
       console.log("AUTH RESULT:", data);
-if (data.htmlRedirectCode) {
 
-  document.getElementById("3DSUI").innerHTML =
-    data.htmlRedirectCode;
+      if (data.htmlRedirectCode) {
 
-  return;
-}
+        document.getElementById("3DSUI").innerHTML =
+          data.htmlRedirectCode;
 
-if (
-  data.gatewayRecommendation === "PROCEED" &&
-  data.restApiResponse?.result === "SUCCESS"
-) {
+        return;
+      }
 
-  const payResponse = await fetch("/api/pay", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      sessionId: sessionData.sessionId,
-      orderId: sessionData.orderId,
-      amount: sessionData.amount,
-      transactionId: transactionId
-    })
-  });
+      if (
+        data.gatewayRecommendation === "PROCEED" &&
+        data.restApiResponse?.result === "SUCCESS"
+      ) {
 
-  const payData = await payResponse.json();
-
-  console.log("FINAL PAY:", payData);
-}
+        const payResponse = await fetch("/api/pay", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -267,8 +252,10 @@ if (
 
         console.log("FINAL PAY:", payData);
       }
+
     }
   );
+
 }  
 
 initPayment();
