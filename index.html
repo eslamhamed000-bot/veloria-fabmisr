@@ -218,20 +218,12 @@ function openCheckout() {
     async function(data) {
 
       console.log("AUTH RESULT:", data);
-if (
-  data.restApiResponse &&
-  data.restApiResponse.authentication &&
-  data.restApiResponse.authentication["3ds"] &&
-  data.restApiResponse.authentication["3ds"].transactionId
-) {
-  authenticationTransactionId =
-    data.restApiResponse.authentication["3ds"].transactionId;
+authenticationTransactionId = transactionId;
 
-  console.log(
-    "AUTH TXN ID:",
-    authenticationTransactionId
-  );
-}
+console.log(
+  "AUTH TXN ID:",
+  authenticationTransactionId
+);
      if (data.htmlRedirectCode) {
 
   const container =
