@@ -38,10 +38,20 @@ export default async function handler(req, res) {
     const data =
       await response.json();
 
-    console.log(
-      "CHECK AUTH RESPONSE:",
-      JSON.stringify(data, null, 2)
-    );
+    console.log("CHECK AUTH STATUS:", {
+  result: data.result,
+  authStatus: data.order?.authenticationStatus,
+  gatewayCode: data.response?.gatewayCode,
+  gatewayRecommendation:
+    data.response?.gatewayRecommendation,
+  transactionStatus:
+    data.authentication?.["3ds2"]?.transactionStatus
+});
+
+console.log(
+  "CHECK AUTH RESPONSE:",
+  JSON.stringify(data, null, 2)
+);
    console.log(
   "CHECK AUTH URL:",
   url
