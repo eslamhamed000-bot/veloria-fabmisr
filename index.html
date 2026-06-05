@@ -231,7 +231,7 @@ if (
     authenticationTransactionId
   );
 }
-      if (data.htmlRedirectCode) {
+     if (data.htmlRedirectCode) {
 
   const container =
     document.getElementById("3DSUI");
@@ -239,7 +239,14 @@ if (
   container.innerHTML =
     data.htmlRedirectCode;
 
- 
+  const form =
+    document.getElementById(
+      "threedsChallengeRedirectForm"
+    );
+
+  if (form) {
+    form.submit();
+  }
 
   return;
 }
