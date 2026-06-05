@@ -245,11 +245,36 @@ if (
       "threedsChallengeRedirectForm"
     );
 
-  if (form) {
-    form.submit();
-  }
+if (form) {
+  form.submit();
+}
 
-  return;
+setTimeout(async () => {
+
+  const authResponse =
+    await fetch("/api/check-auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        orderId: sessionData.orderId,
+        authenticationTransactionId:
+          authenticationTransactionId
+      })
+    });
+
+  const authData =
+    await authResponse.json();
+
+  console.log(
+    "CHECK AUTH:",
+    authData
+  );
+
+}, 15000);
+
+return;
 }
 
       if (
