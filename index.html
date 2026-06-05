@@ -131,18 +131,19 @@ document.getElementById("payBtn").style.display = "block";
 document.getElementById("status").innerHTML =
   "Enter card details then click Pay Now";
     ThreeDS.configure({
-      merchantId: sessionData.merchantId,
-      sessionId: sessionData.sessionId,
-      containerId: "3DSUI",
-      callback: function () {
+  merchantId: sessionData.merchantId,
+  sessionId: sessionData.sessionId,
+  containerId: "3DSUI",
 
-        console.log("3DS CONFIGURED");
+  callback: function () {
+    console.log("3DS CONFIGURED");
+  },
 
-      },
-      configuration: {
-        wsVersion: 100
-      }
-    });
+  configuration: {
+    userLanguage: "en-US",
+    wsVersion: 100
+  }
+});
 
   },
 
@@ -241,7 +242,7 @@ if (form) {
   form.submit();
 }
 
-setTimeout(async () => {
+const authInterval = setInterval(async () => {
 
   const authResponse =
     await fetch("/api/check-auth", {
@@ -264,7 +265,45 @@ setTimeout(async () => {
     authData
   );
 
-}, 20000);
+  const status =
+    authData?.order?.authenticationStatus;
+
+  if (
+    status === "AUTHENTICATION_SUCCESSFUL"
+  ) {
+
+    clearInterval(authInterval);
+
+    const payResponse =
+      await fetch("/api/pay", {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+        body: JSON.stringify({
+          sessionId:
+            sessionData.sessionId,
+          orderId:
+            sessionData.orderId,
+          amount:
+            sessionData.amount,
+          authenticationTransactionId:
+            authenticationTransactionId
+        })
+      });
+
+    const payData =
+      await payResponse.json();
+
+    console.log(
+      "FINAL PAY:",
+      payData
+    );
+  }
+
+}, 3000);
+
 
 return;
 }
