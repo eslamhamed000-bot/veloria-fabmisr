@@ -12,11 +12,14 @@ export default async function handler(req, res) {
    sessionId,
    orderId,
    amount,
-   transactionId
+   authenticationTransactionId
   } = req.body;
 
-    const url = `https://fabmisr.gateway.mastercard.com/api/rest/version/100/merchant/${merchantId}/order/${orderId}/transaction/${transactionId}`;
+const transactionId =
+  "PAY-" + Date.now();
 
+const url =
+`https://fabmisr.gateway.mastercard.com/api/rest/version/100/merchant/${merchantId}/order/${orderId}/transaction/${transactionId}`;
     const auth = Buffer.from(`merchant.${merchantId}:${password}`).toString("base64");
 
     const response = await fetch(url, {
@@ -28,7 +31,7 @@ export default async function handler(req, res) {
 body: JSON.stringify({
   apiOperation: "PAY",
 
-  authentication: {
+   {
     transactionId: transactionId
   },
 
