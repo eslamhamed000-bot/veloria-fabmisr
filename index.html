@@ -221,10 +221,11 @@ function openCheckout() {
 if (
   data.restApiResponse &&
   data.restApiResponse.authentication &&
-  data.restApiResponse.authentication.transactionId
+  data.restApiResponse.authentication["3ds"] &&
+  data.restApiResponse.authentication["3ds"].transactionId
 ) {
   authenticationTransactionId =
-    data.restApiResponse.authentication.transactionId;
+    data.restApiResponse.authentication["3ds"].transactionId;
 
   console.log(
     "AUTH TXN ID:",
