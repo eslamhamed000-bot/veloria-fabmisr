@@ -224,11 +224,21 @@ function openCheckout() {
 
       if (data.htmlRedirectCode) {
 
-        document.getElementById("3DSUI").innerHTML =
-          data.htmlRedirectCode;
+  const container =
+    document.getElementById("3DSUI");
 
-        return;
-      }
+  container.innerHTML =
+    data.htmlRedirectCode;
+
+  const form =
+    container.querySelector("form");
+
+  if (form) {
+    form.submit();
+  }
+
+  return;
+}
 
       if (
         data.gatewayRecommendation === "PROCEED" &&
