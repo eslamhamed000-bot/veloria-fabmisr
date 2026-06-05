@@ -31,8 +31,8 @@ const url =
 body: JSON.stringify({
   apiOperation: "PAY",
 
-   {
-    transactionId: transactionId
+  authentication: {
+    transactionId: authenticationTransactionId
   },
 
   session: {
